@@ -1,7 +1,9 @@
 import serverless from "serverless-http";
 import NextServer from "next/dist/server/next-server";
+import {
+    config,
 // @ts-ignore
-import { config } from "./.next/required-server-files.json";
+} from ".next/required-server-files.json";
 import type {
     NextConfig,
 } from "next";
