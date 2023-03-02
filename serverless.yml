@@ -1,0 +1,36 @@
+service: blog
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-northeast-2
+  apiGateway:
+    shouldStartNameWithService: true
+    binaryMediaTypes:
+      - "*/*"
+
+functions:
+  api:
+    handler: server.handler
+    events:
+      - http: ANY /
+      - http: ANY /{proxy+}
+
+plugins:
+  - serverless-esbuild
+
+package:
+  patterns:
+    - ".next"
+    - "node_modules"
+    - "public"
+    - "_next"
+    - "next.config.js"
+    - "packages.json"
+custom:
+  esbuild:
+    bundle: true
+    minify: true
+    exclude: "*"
+    external:
+      - "next"
