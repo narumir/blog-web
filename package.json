@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "sh build.sh",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:next": "next build",
+    "build:lambda":"esbuild server.ts '--external:next' --minify --bundle --target=node16 --platform=node --outfile=server.js"
   },
   "dependencies": {
     "@emotion/cache": "^11.10.5",
@@ -20,7 +22,7 @@
     "@types/node": "^18.14.3",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
-    "esbuild": "^0.16.17",
+    "esbuild": "0.16.17",
     "eslint": "^8.35.0",
     "eslint-config-next": "^13.2.3",
     "serverless": "^3.28.0",
