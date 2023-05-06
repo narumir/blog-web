@@ -2,12 +2,12 @@ import {
     NextPage,
 } from "next"
 
-const MainPage: NextPage = () => {
+const About: NextPage = () => {
     return (
         <div>
-            sz
+            szdfsad
         </div>
     )
 };
 
-export default MainPage;
+export default About;
