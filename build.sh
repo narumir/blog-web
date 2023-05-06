@@ -15,3 +15,6 @@ cp -r public $BUILD_FOLDER/
 
 # Build lambda function
 npm run build:lambda
+
+# Zipping built files
+zip -r blog.zip .dist
