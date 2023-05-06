@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "sh build.sh",
     "start": "next start",
     "lint": "next lint",
+    "build": "sh build.sh",
     "build:next": "next build",
-    "build:lambda": "esbuild server.ts '--external:next' --minify --bundle --target=node16 --platform=node --outfile=server.js"
+    "build:lambda": "esbuild server.ts '--external:next' --minify --bundle --target=node16 --platform=node --outfile=.dist/server.js"
   },
   "dependencies": {
     "@emotion/cache": "^11.10.5",
