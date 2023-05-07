@@ -5,6 +5,7 @@ BUILD_FOLDER=.dist
 # Clean
 rm -rf $BUILD_FOLDER
 rm -rf .next
+rm blog.zip
 
 # Next.js build and copy
 npm run build:next
@@ -17,4 +18,5 @@ cp -r public $BUILD_FOLDER/
 npm run build:lambda
 
 # Zipping built files
-zip -r blog.zip .dist
+cd .dist/
+zip -r ../blog.zip .
