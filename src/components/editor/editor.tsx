@@ -8,7 +8,11 @@ import {
   useRef,
 } from "react";
 
-export const Editor: FC<{ config?: EditorConfig }> = (config) => {
+type EditorProps = {
+  config?: Omit<EditorConfig, "holder" | "holderId">;
+}
+
+export const Editor: FC<EditorProps> = (config) => {
   const invokedRef = useRef<boolean>(false);
   const blockRef = useRef<HTMLDivElement>(null);
   const editor: MutableRefObject<EditorJS | null> = useRef(null);
