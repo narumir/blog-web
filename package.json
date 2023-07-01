@@ -11,6 +11,7 @@
     "build:lambda": "esbuild server.ts '--external:next' --minify --bundle --target=node18 --platform=node --outfile=.dist/server.js"
   },
   "dependencies": {
+    "@editorjs/editorjs": "^2.27.2",
     "@emotion/cache": "^11.10.5",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
