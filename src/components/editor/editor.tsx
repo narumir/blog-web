@@ -1,5 +1,6 @@
 import EditorJS, {
   EditorConfig,
+  OutputData,
 } from "@editorjs/editorjs";
 import {
   FC,
@@ -9,12 +10,13 @@ import {
 } from "react";
 
 type EditorProps = {
-  config?: Omit<EditorConfig, "holder" | "holderId">;
+  config?: Omit<EditorConfig, "holder" | "holderId" | "onChange">;
+  onChange?: (data: OutputData) => void;
 }
 
-export const Editor: FC<EditorProps> = (config) => {
-  const invokedRef = useRef<boolean>(false);
+export const EditorComponent: FC<EditorProps> = ({ config, onChange }) => {
   const blockRef = useRef<HTMLDivElement>(null);
+  const invokedRef = useRef<boolean>(false);
   const editor: MutableRefObject<EditorJS | null> = useRef(null);
   useLayoutEffect(() => {
     if (!invokedRef.current || blockRef.current == null) {
@@ -24,11 +26,18 @@ export const Editor: FC<EditorProps> = (config) => {
     editor.current = new EditorJS({
       holder: blockRef.current,
       ...config,
+      onChange: async (api, _event) => {
+        if (onChange == null) {
+          return;
+        }
+        const data = await api.saver.save();
+        onChange(data);
+      },
     });
     return () => {
       editor.current?.destroy();
     };
-  }, [config]);
+  }, [config, onChange]);
   return (
     <div ref={blockRef} />
   );

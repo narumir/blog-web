@@ -1,6 +1,9 @@
 import dynamic from "next/dynamic";
 
-export const Editor = dynamic(() =>
-  import("./editor").then(({ Editor }) => Editor),
-  { ssr: false }
+export const EditorJS = dynamic(() =>
+  import("./editor").then(({ EditorComponent }) => EditorComponent),
+  {
+    ssr: false,
+    loading: () => (<p>loading...</p>),
+  }
 );
