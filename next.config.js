@@ -8,6 +8,7 @@ const nextConfig = {
     unoptimized: true,
   },
   output: "standalone",
+  assetPrefix: "https://static-blog.narumir.io",
 };
 
 module.exports = nextConfig;
