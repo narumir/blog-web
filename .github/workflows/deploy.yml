@@ -1,31 +1,53 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Node.js CI
+name: Build and deply
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [14.x, 16.x, 18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Configure Cloudflare R2 credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.CLOUDFLARE_R2_SECRET_KEY }}
+          aws-region: us-east-1
+
+      - name: Deploy Assets to Cloudflare R2
+        working-directory: .static
+        run: aws s3 --endpoint-url ${{ secrets.CLOUDFLARE_R2_END_POINT_URL }} cp --recursive . s3://blog-static
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Zipping lambda source code
+        working-directory: .dist
+        run: zip -r blog_ssr.zip .
+
+      - name: Upload lambda source code
+        working-directory: .dist
+        run: aws s3 cp ./blog_ssr.zip s3://${{ secrets.AWS_S3_BUCKET }}/blog_ssr.zip
+
+      - name: Deploy lambda source code
+        run: aws lambda update-function-code --no-cli-pager --function-name blog_ssr --s3-bucket ${{ secrets.AWS_S3_BUCKET }} --s3-key blog_ssr.zip
