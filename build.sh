@@ -9,12 +9,15 @@ rm -rf $BUILD_FOLDER
 
 # Build project
 npm run build:next
-npm run build:lambda
 
 # Copy assets
 cp -r public $STATIC_FOLDER/
-cp -r .next/static $STATIC_FOLDER/_next/
+mkdir -p $STATIC_FOLDER/_next
+cp -r .next/static $STATIC_FOLDER/_next/static
 
 # Copy serverless
 cp -r .next/standalone/. $BUILD_FOLDER/
 cp -r next.config.js $BUILD_FOLDER/
+
+# Build serverless hanlder
+npm run build:lambda
