@@ -4,8 +4,8 @@ on: [push]
 
 jobs:
   release:
-    name: Release pushed tag
-    runs-on: ubunut-latest
+    name: Build and deploy
+    runs-on: ubunut-22.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
