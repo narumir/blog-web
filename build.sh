@@ -1,22 +1,20 @@
 #!/bin/bash
 
+STATIC_FOLDER=.static
 BUILD_FOLDER=.dist
 
-# Clean
+# Cleanup output folders
+rm -rf $STATIC_FOLDER
 rm -rf $BUILD_FOLDER
-rm -rf .next
-rm blog.zip
 
-# Next.js build and copy
+# Build project
 npm run build:next
-mv .next/standalone/ $BUILD_FOLDER/
-cp -r .next/static $BUILD_FOLDER/.next
-cp -r next.config.js $BUILD_FOLDER/
-cp -r public $BUILD_FOLDER/
-
-# Build lambda function
 npm run build:lambda
 
-# Zipping built files
-cd .dist/
-zip -r ../blog.zip .
+# Copy assets
+cp -r public $STATIC_FOLDER/
+cp -r .next/static $STATIC_FOLDER/_next/
+
+# Copy serverless
+cp -r .next/standalone/. $BUILD_FOLDER/
+cp -r next.config.js $BUILD_FOLDER/

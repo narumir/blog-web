@@ -37,5 +37,4 @@ next-env.d.ts
 
 # custom
 .dist
-server.js
-blog.zip
+.static
