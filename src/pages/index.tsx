@@ -1,13 +1,13 @@
 import {
-    NextPage,
+  NextPage,
 } from "next"
 
 const MainPage: NextPage = () => {
-    return (
-        <div>
-            sz
-        </div>
-    )
+  return (
+    <div>
+      main
+    </div>
+  );
 };
 
 export default MainPage;
