@@ -23,14 +23,11 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Configure Cloudflare R2 credentials
+      - name: Configure Cloudflare R2 wrangler
         uses: cloudflare/wrangler-action@2.0.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_R2_API_TOKEN }}
-
-      - name: Deploy Assets to Cloudflare R2
-        working-directory: .static
-        run: wrangler r2 object put blog-static/ --file=.
+          command: r2 object put blog-static/ --file=.
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
