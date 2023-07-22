@@ -43,7 +43,7 @@ jobs:
 
       - name: Deploy Assets to Cloudflare R2
         working-directory: .static
-        run: aws s3 --region us-east-1 --endpoint-url ${{ secrets.CLOUDFLARE_R2_END_POINT_URL }} cp --recursive . s3://
+        run: aws s3 --region us-east-1 --endpoint-url ${{ secrets.CLOUDFLARE_R2_END_POINT_URL }} cp --recursive . s3://blog-static
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
