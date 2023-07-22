@@ -1,4 +1,4 @@
-name: Build and deply
+name: Build and deploy
 
 on:
   push:
@@ -23,17 +23,6 @@ jobs:
       - name: Build project
         run: npm run build
 
-      # - name: Configure Cloudflare R2 credentials
-      #   uses: aws-actions/configure-aws-credentials@v2
-      #   with:
-      #     aws-access-key-id: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY }}
-      #     aws-secret-access-key: ${{ secrets.CLOUDFLARE_R2_SECRET_KEY }}
-      #     aws-region: us-east-1
-
-      # - name: Deploy Assets to Cloudflare R2
-      #   working-directory: .static
-      #   run: aws s3 --endpoint-url ${{ secrets.CLOUDFLARE_R2_END_POINT_URL }} cp --recursive . s3://blog-static
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -51,3 +40,17 @@ jobs:
 
       - name: Deploy lambda source code
         run: aws lambda update-function-code --no-cli-pager --function-name blog_ssr --s3-bucket ${{ secrets.AWS_S3_BUCKET }} --s3-key blog_ssr.zip
+
+      # - name: Configure Cloudflare R2 credentials
+      #   uses: aws-actions/configure-aws-credentials@v2
+      #   with:
+      #     aws-access-key-id: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY }}
+      #     aws-secret-access-key: ${{ secrets.CLOUDFLARE_R2_SECRET_KEY }}
+      #     aws-region: us-east-1
+
+      - name: Deploy Assets to Cloudflare R2
+        working-directory: .static
+        run: aws s3 region us-east-1 --endpoint-url ${{ secrets.CLOUDFLARE_R2_END_POINT_URL }} cp --recursive . s3://blog-static
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
