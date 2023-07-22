@@ -23,11 +23,16 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Configure Cloudflare R2 wrangler
-        uses: cloudflare/wrangler-action@2.0.0
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_R2_API_TOKEN }}
-          command: r2 object put blog-static/ --file=.
+      # - name: Configure Cloudflare R2 credentials
+      #   uses: aws-actions/configure-aws-credentials@v2
+      #   with:
+      #     aws-access-key-id: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY }}
+      #     aws-secret-access-key: ${{ secrets.CLOUDFLARE_R2_SECRET_KEY }}
+      #     aws-region: us-east-1
+
+      # - name: Deploy Assets to Cloudflare R2
+      #   working-directory: .static
+      #   run: aws s3 --endpoint-url ${{ secrets.CLOUDFLARE_R2_END_POINT_URL }} cp --recursive . s3://blog-static
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
