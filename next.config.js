@@ -7,7 +7,8 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    unoptimized: true,
+    loader: "custom",
+    loaderFile: "./image_loader.js",
   },
   output: "standalone",
   assetPrefix: isProduction ? "https://static-blog.narumir.io" : "",
