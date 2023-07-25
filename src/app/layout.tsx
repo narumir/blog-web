@@ -3,20 +3,26 @@ import {
   PropsWithChildren,
 } from "react";
 import {
+  Noto_Sans_KR,
+} from "next/font/google";
+import {
   Header,
 } from "src/components";
 import './global.css'
 
+const notoSans = Noto_Sans_KR({
+  weight: ["100", "300", "400", "500", "700", "900"],
+  display: "swap",
+  subsets: ["latin"],
+});
+
 const Layout: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <html lang="ko">
+    <html lang="ko" className={notoSans.className}>
       <head>
         <meta charSet="UTF-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=Edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        {/* <link rel="preconnect" href="https://fonts.googleapis.com" /> */}
-        {/* <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" /> */}
-        {/* <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" /> */}
       </head>
       <body>
         <Header />
