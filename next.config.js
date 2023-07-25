@@ -1,3 +1,5 @@
+const isProduction = process.env.NODE_ENV === "production";
+
 /**
  *  @type {import('next').NextConfig}
  */
@@ -8,7 +10,7 @@ const nextConfig = {
     unoptimized: true,
   },
   output: "standalone",
-  assetPrefix: "https://static-blog.narumir.io",
+  assetPrefix: isProduction ? "https://static-blog.narumir.io" : "",
 };
 
 module.exports = nextConfig;

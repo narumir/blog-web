@@ -13,9 +13,9 @@
   "dependencies": {
     "@editorjs/editorjs": "^2.27.2",
     "@emotion/styled": "^11.10.5",
-    "next": "^13.2.3",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "next": "^13.4.12",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "sanitize-html": "^2.11.0"
   },
   "devDependencies": {

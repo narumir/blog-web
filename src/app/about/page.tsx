@@ -5,7 +5,7 @@ import {
 const About: NextPage = () => {
   return (
     <div>
-      szdfsad
+      about page
     </div>
   );
 };

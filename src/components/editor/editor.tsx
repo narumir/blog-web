@@ -1,3 +1,4 @@
+'use client';
 import EditorJS, {
   EditorConfig,
   OutputData,
