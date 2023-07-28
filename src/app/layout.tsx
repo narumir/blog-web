@@ -24,7 +24,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
         <meta httpEquiv="X-UA-Compatible" content="IE=Edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
-      <body>
+      <body className="bg-[#f8f9fa]">
         <Header />
         {children}
       </body>

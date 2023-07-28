@@ -1,12 +1,20 @@
 import {
   NextPage,
 } from "next"
+import {
+  PostItem,
+  PostContainer,
+} from "src/components/post";
 
 const MainPage: NextPage = () => {
   return (
-    <div>
-      main
-    </div>
+    <PostContainer>
+      <PostItem />
+      <PostItem />
+      <PostItem />
+      <PostItem />
+      <PostItem />
+    </PostContainer>
   );
 };
 
