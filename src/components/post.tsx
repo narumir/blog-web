@@ -17,7 +17,7 @@ export const PostContainer: FC<PropsWithChildren> = ({ children }) => {
 
 export const PostItem: FC = () => {
   return (
-    <div className="rounded-md w-[20rem] h-[24rem] m-4 bg-white flex flex-col justify-stretch">
+    <div className="rounded-md w-[20rem] h-[24rem] sm:m-4 m-0 bg-white flex flex-col justify-stretch">
       <div className="h-1/2">
         <div className="rounded-md relative overflow-hidden h-full">
           <Image width={400} height={500} src="profile.png" alt="dd" className="object-cover absolute inset-0 w-full h-full" />
@@ -38,4 +38,3 @@ export const PostItem: FC = () => {
     </div>
   );
 };
-
