@@ -3,12 +3,11 @@ import {
   NextRequest,
   NextResponse,
 } from "next/server";
+import {
+  decodeToken,
+} from "src/utils";
 
 const baseURL = process.env.BASE_URL ?? "https://api-blog.narumir.io";
-const decodeToken = (token: string) => {
-  const [_, payload,] = token.split(".");
-  return JSON.parse(Buffer.from(payload, "base64").toString());
-};
 
 export async function middleware(req: NextRequest) {
   const cookieStore = req.cookies;
