@@ -1,10 +1,16 @@
 import {
-  NextPage,
-} from "next";
+  getPublicKey,
+} from "./actions";
+import {
+  Login,
+} from "./login";
 
-const LoginPage: NextPage = () => {
+const LoginPage = async () => {
+  const publicKey = await getPublicKey();
   return (
-    <div>login page</div>
+    <div>
+      <Login publicKey={publicKey} />
+    </div>
   );
 };
 

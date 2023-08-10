@@ -12,6 +12,9 @@ const nextConfig = {
   },
   output: "standalone",
   assetPrefix: isProduction ? "https://static-blog.narumir.io" : "",
+  experimental: {
+    serverActions: true,
+  },
 };
 
 module.exports = nextConfig;

@@ -4,36 +4,58 @@ import {
   NextResponse,
 } from "next/server";
 import {
+  accessTokenCookieName,
+  baseURL,
   decodeToken,
-} from "src/utils";
+  defaultCookieOptions,
+  refreshTokenCookieName,
+} from "./utils";
 
-const baseURL = process.env.BASE_URL ?? "https://api-blog.narumir.io";
-
-export async function middleware(req: NextRequest) {
-  const cookieStore = req.cookies;
-  const isSigned = cookieStore.has("x-token");
-  const accessToken = cookieStore.has("a-token") && isSigned
-    ? cookieStore.get("a-token")?.value
-    : undefined;
-  if (accessToken == null) {
+export const middleware = async (req: NextRequest) => {
+  const res = NextResponse.next();
+  const cookiesStore = req.cookies;
+  let refreshToken = cookiesStore.get(refreshTokenCookieName)?.value;
+  if (refreshToken == null) {
     return NextResponse.next();
   }
-  const decode = decodeToken(accessToken);
-  const expires = dayjs(decode["exp"] * 1000);
-  const current = dayjs().add(-1, "minute");
-  if (current.isAfter(expires)) {
-    const refreshToken = cookieStore.get("x-token")?.value;
-    const res = await fetch(`${baseURL}/auth/access-token`, { method: "POST", headers: { Cookie: `x-token=${refreshToken}` } })
-    const data = await res.json();
-    return NextResponse.next({
+  const current = dayjs();
+  const decodeRefreshToken = decodeToken(refreshToken);
+  const refreshTokenExpires = dayjs(decodeRefreshToken["exp"] * 1000);
+  if (current.isAfter(refreshTokenExpires.add(-1, "hour"))) {
+    const data = await fetch(`${baseURL}/auth/refresh-token`, {
+      method: "POST",
+      body: JSON.stringify({ token: refreshToken }),
       headers: {
-        'Set-Cookie': `a-token=${data.accessToken}`,
-        'authorization': `bearer ${data.accessToken}`,
+        "Content-Type": "application/json",
       },
-    });
+    }).then((res) => res.json());
+    refreshToken = data.refreshToken as string;
+    res.cookies.set(refreshTokenCookieName, refreshToken, { ...defaultCookieOptions, expires: dayjs(data.refreshTokenExpiredAt).toDate() });
   }
-  return NextResponse.next({ headers: { authorization: `bearer ${accessToken}` } });
-}
+  const renewAccessToken = async () => {
+    const data = await fetch(`${baseURL}/auth/access-token`, {
+      method: "POST",
+      body: JSON.stringify({ token: refreshToken }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => res.json());
+    res.cookies.set(accessTokenCookieName, data.accessToken as string, { ...defaultCookieOptions, expires: dayjs(data.accessTokenExpiredAt).toDate() });
+    res.headers.set("authorization", data.accessToken);
+    return res;
+  };
+  let accessToken = cookiesStore.get(accessTokenCookieName)?.value;
+  if (accessToken == null) {
+    return await renewAccessToken();
+  }
+  const decodeAccessToken = decodeToken(accessToken);
+  const accessTokenExpiredAt = dayjs(decodeAccessToken["exp"] * 1000);
+  if (current.isAfter(accessTokenExpiredAt.add(-1, "minute"))) {
+    return await renewAccessToken();
+  }
+  res.headers.set("authorization", accessToken);
+  return res;
+};
 
 export const config = {
   matcher: '/((?!api|_next/static|_next/image|favicon.ico).*)',
