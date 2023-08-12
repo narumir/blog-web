@@ -61,3 +61,6 @@ export const decodeToken = (token: string) => {
   const [_, payload] = token.split(".");
   return JSON.parse(Buffer.from(payload, "base64").toString());
 };
+export const cn = (...classes: string[]) => {
+  return classes.join(" ");
+};
