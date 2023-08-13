@@ -10,15 +10,15 @@ import {
   useForm,
 } from "react-hook-form";
 import {
-  LoginForm,
-  loginAction,
-} from "./actions";
-import {
   useRouter,
 } from "next/navigation";
 
 type Props = {
   publicKey: string;
+}
+type LoginForm = {
+  username: string;
+  password: string;
 }
 export const Login: FC<Props> = ({ publicKey }) => {
   const [isPending, startTransition] = useTransition();
@@ -26,6 +26,9 @@ export const Login: FC<Props> = ({ publicKey }) => {
   const router = useRouter();
   const onSubmit: SubmitHandler<LoginForm> = (data) => {
     startTransition(() => {
+      if (window == null) {
+        return;
+      }
       const encrypt = new JSEncrypt();
       encrypt.setPublicKey(publicKey);
       const encryptResult = encrypt.encrypt(data.password);
@@ -34,12 +37,17 @@ export const Login: FC<Props> = ({ publicKey }) => {
         return;
       }
       data.password = encryptResult;
-      loginAction(data).then((result) => {
-        if (result) {
-          router.push("/");
-        } else {
-          // login failed
+      fetch("/api/auth/signin", {
+        method: "POST",
+        body: JSON.stringify(data),
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
         }
+      }).then((res) => {
+        return res.json()
+      }).then((result) => {
+        router.push("/");
       });
     });
   };

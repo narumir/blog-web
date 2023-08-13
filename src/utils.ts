@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import {
   cookies,
 } from "next/headers";
-
+export const domain = process.env.NEXT_PUBLIC_DOMAIN ?? "https://blog.narumir.io";
 export const baseURL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://api-blog.narumir.io";
 export type CookieOptions = {
   domain?: string;

@@ -1,10 +1,15 @@
 import {
-  getPublicKey,
-} from "./actions";
-import {
   Login,
 } from "./login";
+import {
+  domain,
+} from "src/utils";
 
+const getPublicKey = async () => {
+  const res = await fetch(`${domain}/api/encrypt/public-key`, { method: "GET" });
+  const data = await res.json();
+  return data.publicKey;
+};
 const LoginPage = async () => {
   const publicKey = await getPublicKey();
   return (
