@@ -34,4 +34,5 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
+export const runtime = 'edge';
 export default Layout;
