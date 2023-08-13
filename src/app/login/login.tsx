@@ -20,7 +20,7 @@ type LoginForm = {
   username: string;
   password: string;
 }
-export const Login: FC<Props> = ({ publicKey }) => {
+const Login: FC<Props> = ({ publicKey }) => {
   const [isPending, startTransition] = useTransition();
   const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>();
   const router = useRouter();
@@ -59,3 +59,5 @@ export const Login: FC<Props> = ({ publicKey }) => {
     </form>
   );
 };
+
+export default Login;
