@@ -26,7 +26,9 @@ const credentialsPOST = async (req: Request) => {
   const reqBody = await getBody(req);
   const res = await fetch(`${baseURL}${path}`, {
     method: "POST",
-    headers: req.headers,
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: reqBody,
   });
   const data = await res.json();
