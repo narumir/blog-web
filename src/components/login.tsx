@@ -1,29 +1,25 @@
-'use client';
-
 import JSEncrypt from "jsencrypt";
 import {
   FC,
+} from "react";
+import {
   useTransition,
 } from "react";
 import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import {
-  useRouter,
-} from "next/navigation";
 
-type Props = {
-  publicKey: string;
-}
 type LoginForm = {
   username: string;
   password: string;
 }
-const Login: FC<Props> = ({ publicKey }) => {
+type Props = {
+  publicKey: string;
+}
+export const Login: FC<Props> = ({ publicKey }) => {
   const [isPending, startTransition] = useTransition();
   const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>();
-  const router = useRouter();
   const onSubmit: SubmitHandler<LoginForm> = (data) => {
     startTransition(() => {
       if (window == null) {
@@ -47,7 +43,7 @@ const Login: FC<Props> = ({ publicKey }) => {
       }).then((res) => {
         return res.json()
       }).then((result) => {
-        router.push("/");
+        // router.push("/");
       });
     });
   };
@@ -59,5 +55,3 @@ const Login: FC<Props> = ({ publicKey }) => {
     </form>
   );
 };
-
-export default Login;
