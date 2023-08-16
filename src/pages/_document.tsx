@@ -11,7 +11,10 @@ import {
 const Document: FC = () => {
   return (
     <Html lang="ko">
-      <Head />
+      <Head>
+        <meta charSet="UTF-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=Edge" />
+      </Head>
       <body className="text-[#333]">
         <Main />
         <NextScript />

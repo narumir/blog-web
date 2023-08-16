@@ -3,7 +3,7 @@ import {
 } from "react";
 import {
   cn,
-} from "src/utils-client";
+} from "src/utils";
 
 type Props = {
   className?: string;

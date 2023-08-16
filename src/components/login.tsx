@@ -1,4 +1,5 @@
 import JSEncrypt from "jsencrypt";
+import { useRouter } from "next/router";
 import {
   FC,
 } from "react";
@@ -18,6 +19,7 @@ type Props = {
   publicKey: string;
 }
 export const Login: FC<Props> = ({ publicKey }) => {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>();
   const onSubmit: SubmitHandler<LoginForm> = (data) => {
@@ -41,9 +43,10 @@ export const Login: FC<Props> = ({ publicKey }) => {
           "Content-Type": "application/json",
         }
       }).then((res) => {
-        return res.json()
+        return res.json();
       }).then((result) => {
-        // router.push("/");
+        console.log(result);
+        window.location.href = "/";
       });
     });
   };

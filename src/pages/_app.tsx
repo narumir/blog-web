@@ -1,8 +1,10 @@
-import {
+import App, {
+  AppContext,
+  AppInitialProps,
   AppProps,
 } from "next/app";
 import {
-  FC, Fragment,
+  Fragment,
 } from "react";
 import {
   Footer,
@@ -14,14 +16,22 @@ import {
   notoSansJP,
 } from "src/fonts";
 import {
+  Auth,
+  accessTokenCookieName,
   cn,
-} from "src/utils-client";
+  cookieParser,
+  decodeToken,
+} from "src/utils";
 import "./global.css";
 
-const App: FC<AppProps> = ({ Component, pageProps }) => {
+type MyAppProps = {
+  auth?: Auth;
+}
+
+const MyApp = ({ Component, pageProps, auth }: AppProps & MyAppProps) => {
   return (
     <Fragment>
-      <Header />
+      <Header auth={auth} />
       <main className={cn(notoSans.className, notoSansKR.className, notoSansJP.className)}>
         <Component {...pageProps} />
       </main>
@@ -29,5 +39,13 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     </Fragment>
   );
 };
-
-export default App;
+MyApp.getInitialProps = async (context: AppContext): Promise<AppInitialProps & MyAppProps> => {
+  const initialProps = await App.getInitialProps(context);
+  const cookies = cookieParser(context.ctx.req?.headers.cookie ?? "");
+  let auth: Auth | undefined = undefined;
+  if (Object.hasOwn(cookies, accessTokenCookieName)) {
+    auth = decodeToken(cookies[accessTokenCookieName])
+  }
+  return { ...initialProps, auth }
+}
+export default MyApp;

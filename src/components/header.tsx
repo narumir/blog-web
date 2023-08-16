@@ -1,10 +1,17 @@
 import Link from "next/link";
 import Image from "next/image";
+import {
+  FC,
+} from "react";
+import {
+  Auth,
+} from "src/utils";
 
-export const Header = () => {
-  // const headersInstance = headers();
-  // const accessToken = headersInstance.get("authorization");
-  // const decode: Record<string, string> = accessToken != null ? decodeToken(accessToken) : {};
+type Props = {
+  auth?: Auth;
+}
+
+export const Header: FC<Props> = ({ auth }) => {
   return (
     <header className="h-20 sm:h-28 w-full border-b-[1px]">
       <div className="container m-auto w-full h-full flex px-4">
@@ -14,9 +21,9 @@ export const Header = () => {
           </Link>
         </div>
         <nav className="flex items-center h-full">
-          {/* <Link className="rounded-full w-8 sm:w-10 h-8 sm:h-10" href={accessToken == null ? "/login" : "/mypage"}> */}
-          {/* <Image width={100} height={100} alt="user profile" src={decode["profile"] ?? "/user.png"} /> */}
-          {/* </Link> */}
+          <Link className="rounded-full w-8 sm:w-10 h-8 sm:h-10" href={auth == null ? "/login" : "/mypage"}>
+            <Image width={100} height={100} alt="user profile" src={"/user.png"} />
+          </Link>
         </nav>
       </div>
     </header>
