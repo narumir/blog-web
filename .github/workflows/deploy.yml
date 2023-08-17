@@ -29,3 +29,19 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
+
+      - name: Zipping project
+        run: |
+          mv .next/standalone dist
+          zip -r ${{ github.sha }}.zip dist scripts appspec.yml package.json package-lock.json
+
+      - name: Deploy to S3
+        run: aws s3 cp ./${{ github.sha }}.zip s3://narumir-io-code-store/blog-frontend/${{ github.sha }}.zip
+
+      - name: Deploy Via Codedeploy
+        run: |
+          aws deploy create-deployment \
+            --application-name blog \
+            --deployment-group-name deploy_frontend \
+            --deployment-config-name CodeDeployDefault.AllAtOnce \
+            --s3-location bucket=narumir-io-code-store,bundleType=zip,key=blog-frontend/${{ github.sha }}.zip
