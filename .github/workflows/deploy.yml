@@ -32,8 +32,7 @@ jobs:
 
       - name: Zipping project
         run: |
-          mv .next/standalone dist
-          zip -r ${{ github.sha }}.zip dist scripts appspec.yml package.json package-lock.json
+          zip -r ${{ github.sha }}.zip .next scripts appspec.yml package.json package-lock.json
 
       - name: Deploy to S3
         run: aws s3 cp ./${{ github.sha }}.zip s3://narumir-io-code-store/blog-frontend/${{ github.sha }}.zip
