@@ -21,16 +21,15 @@ const getBody = async (req: Request) => {
   const body = await req.json();
   return JSON.stringify(body ?? "");
 };
-const credentialsPOST = async (req: Request) => {
-  const path = getPath(req);
-  const reqBody = await getBody(req);
-  const res = await fetch(`${baseURL}${path}`, {
+const credentialsPOST = async (req: Request, path: string, body?: string) => {
+  const fetchOption: RequestInit = {
     method: "POST",
+    body,
     headers: {
       "Content-Type": "application/json",
     },
-    body: reqBody,
-  });
+  };
+  const res = await fetch(`${baseURL}${path}`, fetchOption);
   const data = await res.json();
   if (res.status === 200 || res.status === 201) {
     const cookiesStore = cookies();
@@ -45,77 +44,28 @@ const credentialsPOST = async (req: Request) => {
   return NextResponse.json(data, { status: res.status });
 };
 
-export async function GET(req: Request) {
-  const accessToken = await getAccessToken();
+const handler = async (req: Request) => {
   const path = getPath(req);
-  const res = await fetch(`${baseURL}${path}`, {
-    method: "GET",
-    headers: {
-      ...req.headers,
-      ...(accessToken != null ? { "Authorization": `bearer ${accessToken}` } : {}),
-    },
-  });
-  const body = await res.json();
-  return NextResponse.json(body, { status: res.status });
-}
-export async function POST(req: Request) {
-  const accessToken = await getAccessToken();
-  const path = getPath(req);
+  const body = req.method !== "GET" && req.method !== "DELETE" ? await getBody(req) : undefined;
   if (path.startsWith("/auth/")) {
-    return credentialsPOST(req);
+    return credentialsPOST(req, path, body);
   }
-  const reqBody = await getBody(req);
-  const res = await fetch(`${baseURL}${path}`, {
-    method: "POST",
-    headers: {
-      ...req.headers,
-      ...(accessToken != null ? { "Authorization": `bearer ${accessToken}` } : {}),
-    },
-    body: reqBody,
-  });
-  const body = await res.json();
-  return NextResponse.json(body, { status: res.status });
-}
-export async function PATCH(req: Request) {
   const accessToken = await getAccessToken();
-  const path = getPath(req);
-  const reqBody = await getBody(req);
-  const res = await fetch(`${baseURL}${path}`, {
-    method: "PATCH",
+  const fetchOption: RequestInit = {
+    method: req.method,
+    body,
     headers: {
       ...req.headers,
       ...(accessToken != null ? { "Authorization": `bearer ${accessToken}` } : {}),
     },
-    body: reqBody,
-  });
-  const body = await res.json();
-  return NextResponse.json(body, { status: res.status });
-}
-export async function PUT(req: Request) {
-  const accessToken = await getAccessToken();
-  const path = getPath(req);
-  const reqBody = await getBody(req);
-  const res = await fetch(`${baseURL}${path}`, {
-    method: "PUT",
-    headers: {
-      ...req.headers,
-      ...(accessToken != null ? { "Authorization": `bearer ${accessToken}` } : {}),
-    },
-    body: reqBody,
-  });
-  const body = await res.json();
-  return NextResponse.json(body, { status: res.status });
-}
-export async function DELETE(req: Request) {
-  const accessToken = await getAccessToken();
-  const path = getPath(req);
-  const res = await fetch(`${baseURL}${path}`, {
-    method: "DELETE",
-    headers: {
-      ...req.headers,
-      ...(accessToken != null ? { "Authorization": `bearer ${accessToken}` } : {}),
-    },
-  });
-  const body = await res.json();
-  return NextResponse.json(body, { status: res.status });
-}
+  };
+  const res = await fetch(`${baseURL}${path}`, fetchOption);
+  const data = await res.json();
+  return NextResponse.json(data, { status: res.status });
+};
+
+export const GET = (req: Request) => handler(req);
+export const POST = (req: Request) => handler(req);
+export const PATCH = (req: Request) => handler(req);
+export const PUT = (req: Request) => handler(req);
+export const DELETE = (req: Request) => handler(req);

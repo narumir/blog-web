@@ -47,7 +47,7 @@ const Login: FC<Props> = ({ publicKey }) => {
       }).then((res) => {
         return res.json()
       }).then((result) => {
-        router.push("/");
+        window.location.href = "/";
       });
     });
   };
