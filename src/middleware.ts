@@ -15,7 +15,7 @@ export const middleware = async (req: NextRequest) => {
   const res = NextResponse.next();
   const cookiesStore = req.cookies;
   let refreshToken = cookiesStore.get(refreshTokenCookieName)?.value;
-  if (refreshToken == null) {
+  if (!cookiesStore.has(refreshTokenCookieName) || refreshToken == null) {
     return NextResponse.next();
   }
   const current = dayjs();
@@ -45,7 +45,7 @@ export const middleware = async (req: NextRequest) => {
     return res;
   };
   let accessToken = cookiesStore.get(accessTokenCookieName)?.value;
-  if (accessToken == null) {
+  if (!cookiesStore.has(accessTokenCookieName) || accessToken == null) {
     return await renewAccessToken();
   }
   const decodeAccessToken = decodeToken(accessToken);
