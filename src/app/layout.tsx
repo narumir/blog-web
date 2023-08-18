@@ -25,9 +25,11 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>narumir의 블로그 입니다.</title>
       </head>
-      <body className="text-[#333]">
+      <body className="text-[#333] safe-area-top safe-area-bottom">
         <Header />
-        {children}
+        <main>
+          {children}
+        </main>
         <Footer />
       </body>
     </html>
