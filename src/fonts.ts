@@ -7,7 +7,7 @@ import {
 export const notoSans = Noto_Sans({
   preload: true,
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["100", "300", "400", "500", "700", "900"],
 });
 export const notoSansKR = Noto_Sans_KR({
   preload: false,
@@ -15,5 +15,5 @@ export const notoSansKR = Noto_Sans_KR({
 });
 export const notoSansJP = Noto_Sans_JP({
   preload: false,
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["100", "300", "400", "500", "700", "900"],
 });
