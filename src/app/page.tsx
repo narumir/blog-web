@@ -4,7 +4,7 @@ import Link from "next/link";
 const i = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 const MainPage = async () => {
   return (
-    <main className="container m-auto px-5 w-full">
+    <div className="container m-auto px-5 w-full">
       <h1 className="font-black text-5xl sm:text-7xl pt-16 pb-6">STORIES</h1>
       <section>
         <ul className="flex flex-wrap mt-8">
@@ -26,7 +26,7 @@ const MainPage = async () => {
           ))}
         </ul>
       </section>
-    </main>
+    </div>
   );
 };
 
