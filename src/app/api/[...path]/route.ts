@@ -54,8 +54,8 @@ const signout = async (path: string) => {
     },
   };
   await fetch(`${baseURL}${path}`, fetchOption);
-  cookiesStore.delete(refreshTokenCookieName);
-  cookiesStore.delete(accessTokenCookieName);
+  cookiesStore.set(accessTokenCookieName, "", { ...defaultCookieOptions, expires: 0 });
+  cookiesStore.set(refreshTokenCookieName, "", { ...defaultCookieOptions, expires: 0 });
   return NextResponse.json({ success: true });
 };
 
