@@ -24,11 +24,11 @@ const Signin: FC<Props> = ({ publicKey }) => {
     startTransition(() => {
       body.password = encryptPassword(publicKey, body.password);
       signin(body).then((result) => {
-        if (result === false) {
-          alert("로그인에 실패하였습니다.");
+        if (result.success === true) {
+          window.location.href = "/";
           return;
         }
-        window.location.href = "/";
+        alert("로그인에 실패하였습니다.");
       });
     });
   };

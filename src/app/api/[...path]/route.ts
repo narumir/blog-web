@@ -15,7 +15,7 @@ import {
 
 const getPath = (req: Request) => {
   const url = new URL(req.url);
-  return `/${url.pathname.split("/").slice(2).join("/")}${url.search}`;
+  return `/${url.pathname.split("/").slice(2).join("/")}`;
 };
 const getBody = async (req: Request) => {
   const body = await req.json();

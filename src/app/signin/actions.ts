@@ -17,7 +17,7 @@ export const encryptPassword = (publicKey: string, password: string) => {
   return encryptResult;
 };
 
-export const signin = async (body: LoginForm): Promise<boolean> => {
+export const signin = async (body: LoginForm) => {
   const fetchOption: RequestInit = {
     method: "POST",
     body: JSON.stringify(body),
@@ -28,5 +28,5 @@ export const signin = async (body: LoginForm): Promise<boolean> => {
   };
   const response = await fetch("/api/auth/signin", fetchOption);
   const data = await response.json();
-  return data.success;
+  return data;
 };
