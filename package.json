@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@editorjs/editorjs": "^2.27.2",
-    "axios": "^1.4.0",
     "dayjs": "^1.11.9",
     "jsencrypt": "^3.3.2",
     "next": "^13.4.13",
