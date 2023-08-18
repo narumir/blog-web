@@ -21,7 +21,7 @@ const getBody = async (req: Request) => {
   const body = await req.json();
   return JSON.stringify(body ?? "");
 };
-const credentialsPOST = async (req: Request, path: string, body?: string) => {
+const signin = async (path: string, body?: string) => {
   const fetchOption: RequestInit = {
     method: "POST",
     body,
@@ -43,12 +43,30 @@ const credentialsPOST = async (req: Request, path: string, body?: string) => {
   }
   return NextResponse.json(data, { status: res.status });
 };
+const signout = async (path: string) => {
+  const cookiesStore = cookies();
+  const token = cookiesStore.get(refreshTokenCookieName);
+  const fetchOption: RequestInit = {
+    method: "POST",
+    body: JSON.stringify({ token: token }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  await fetch(`${baseURL}${path}`, fetchOption);
+  cookiesStore.delete(refreshTokenCookieName);
+  cookiesStore.delete(accessTokenCookieName);
+  return NextResponse.json({ success: true });
+};
 
 const handler = async (req: Request) => {
   const path = getPath(req);
   const body = req.method !== "GET" && req.method !== "DELETE" ? await getBody(req) : undefined;
-  if (path.startsWith("/auth/")) {
-    return credentialsPOST(req, path, body);
+  if (path === "/auth/signin") {
+    return signin(path, body);
+  }
+  if (path === "/auth/signout") {
+    return signout(path);
   }
   const accessToken = await getAccessToken();
   const fetchOption: RequestInit = {
