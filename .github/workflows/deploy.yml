@@ -22,6 +22,8 @@ jobs:
 
       - name: Build project
         run: npm run build
+        env:
+          NEXT_PUBLIC_GA_MEASURE_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASURE_ID }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2

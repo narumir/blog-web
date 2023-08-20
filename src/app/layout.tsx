@@ -14,6 +14,9 @@ import {
   notoSansJP,
   notoSansKR,
 } from "src/fonts";
+import {
+  AnalyticsScripts,
+} from "./analytics-scripts";
 import "./global.css";
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
@@ -31,6 +34,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
           {children}
         </main>
         <Footer />
+        <AnalyticsScripts />
       </body>
     </html>
   );
