@@ -34,7 +34,7 @@ const Signin: FC<Props> = ({ publicKey }) => {
   };
   return (
     <form className="my-32 w-72 sm:w-1/3 m-auto" onSubmit={handleSubmit(onSubmit)}>
-      <input className="block w-full h-12 border-b-[1px] mt-8" placeholder="아이디" {...register("username", { required: true })} />
+      <input className="block w-full h-12 border-b-[1px] mt-8" placeholder="아이디" autoCapitalize="off" autoCorrect="off" {...register("username", { required: true })} />
       {errors.username?.type === "required" && <p className="text-red-500">유저명을 입력해주세요.</p>}
       <input className="block w-full h-12 border-b-[1px] mt-8" placeholder="비밀번호" type="password" {...register("password", { required: true })} />
       {errors.password?.type === "required" && <p className="text-red-500">비밀번호를 입력해주세요.</p>}
