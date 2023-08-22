@@ -29,13 +29,14 @@ jobs:
         env:
           NEXT_PUBLIC_GA_MEASURE_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASURE_ID }}
 
+      - name: Zipping built files
+        run: zip -r ${{ github.sha }}.zip .next Dockerfile
+
       - name: Upload built artifact
         uses: actions/upload-artifact@v2
         with:
           name: built-artifact
-          path: |
-            .next
-            Dockerfile
+          path: ${{ github.sha }}.zip
 
   publish:
     runs-on: ubuntu-latest
@@ -48,6 +49,11 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: built-artifact
+
+      - name: Unzipping built files
+        run: |
+          unzip ${{ github.sha }}.zip
+          rm ${{ github.sha }}.zip
 
       - name: Login to github registry
         uses: docker/login-action@v2
