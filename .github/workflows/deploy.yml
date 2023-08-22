@@ -4,6 +4,10 @@ on:
   push:
     branches: [ "main" ]
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,24 +29,43 @@ jobs:
         env:
           NEXT_PUBLIC_GA_MEASURE_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASURE_ID }}
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
+      - name: Upload built artifact
+        uses: actions/upload-artifact@v2
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
+          name: built-artifact
+          path: |
+            .next
+            Dockerfile
 
-      - name: Zipping project
-        run: |
-          zip -r ${{ github.sha }}.zip .next scripts appspec.yml package.json package-lock.json
+  publish:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Download built artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: built-artifact
 
-      - name: Deploy to S3
-        run: aws s3 cp ./${{ github.sha }}.zip s3://narumir-io-code-store/blog-frontend/${{ github.sha }}.zip
+      - name: Login to github registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Deploy Via Codedeploy
-        run: |
-          aws deploy create-deployment \
-            --application-name blog \
-            --deployment-group-name deploy_frontend \
-            --deployment-config-name CodeDeployDefault.AllAtOnce \
-            --s3-location bucket=narumir-io-code-store,bundleType=zip,key=blog-frontend/${{ github.sha }}.zip
+      - name: Extract meta data
+        uses: docker/metadata-action@v4
+        id: meta
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      
+      - name: Build and publish container image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
