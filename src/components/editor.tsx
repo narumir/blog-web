@@ -39,6 +39,7 @@ const Editor: FC<Props> = ({ data, onChange, className }) => {
         },
         br: true,
       },
+      placeholder: "당신의 창의성을 이야기해주세요.",
       tools: {
         header: Header,
         code: Code,
