@@ -20,6 +20,7 @@ export const Header = () => {
           </Link>
         </div>
         <nav className="flex items-center h-full">
+          {accessToken != null && <Link className="h-8 sm:h-10 bg-blue-500 text-white rounded-full px-4 font-bold leading-8 sm:leading-10 mr-4" href={"/new"}>글 작성</Link>}
           <Link className="rounded-full w-8 sm:w-10 h-8 sm:h-10" href={accessToken == null ? "/signin" : "/mypage"}>
             <Image width={100} height={100} alt="user profile" src={decode["profile"] ?? "/user.png"} />
           </Link>

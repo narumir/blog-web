@@ -9,7 +9,9 @@
     "build": "next build"
   },
   "dependencies": {
+    "@editorjs/code": "^2.8.0",
     "@editorjs/editorjs": "^2.27.2",
+    "@editorjs/header": "^2.7.0",
     "dayjs": "^1.11.9",
     "jsencrypt": "^3.3.2",
     "next": "^13.4.13",
@@ -19,6 +21,7 @@
     "sanitize-html": "^2.11.0"
   },
   "devDependencies": {
+    "@types/editorjs__header": "^2.6.0",
     "@types/node": "^18.14.3",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
