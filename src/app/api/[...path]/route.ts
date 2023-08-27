@@ -3,6 +3,7 @@ import {
   cookies,
 } from 'next/headers';
 import {
+  NextRequest,
   NextResponse,
 } from 'next/server'
 import {
@@ -13,11 +14,14 @@ import {
   refreshTokenCookieName,
 } from 'src/utils'
 
-const getPath = (req: Request) => {
-  const url = new URL(req.url);
-  return `/${url.pathname.split("/").slice(2).join("/")}`;
+const getOriginPathname = (req: NextRequest, params: string[]) => {
+  const pathname = req.nextUrl.pathname.replace(/^\/api/, "");
+  const queryParams = params.map((val) => `path=${val}`).join("&");
+  const query = req.nextUrl.search.replace(queryParams, "");
+  const search = new URLSearchParams(query);
+  return `${pathname}${search.toString()}`;
 };
-const getBody = async (req: Request) => {
+const getStringifyBody = async (req: NextRequest) => {
   const body = await req.json();
   return JSON.stringify(body ?? "");
 };
@@ -30,7 +34,7 @@ const signin = async (path: string, body?: string) => {
     },
   };
   const res = await fetch(`${baseURL}${path}`, fetchOption);
-  const data = await res.json();
+  const { data } = await res.json();
   if (res.status === 200 || res.status === 201) {
     const cookiesStore = cookies();
     if (data.accessToken != null) {
@@ -39,7 +43,7 @@ const signin = async (path: string, body?: string) => {
     if (data.refreshToken != null) {
       cookiesStore.set(refreshTokenCookieName, data.refreshToken, { ...defaultCookieOptions, expires: dayjs(data.refreshTokenExpiredAt).toDate() });
     }
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ data: { success: true } });
   }
   return NextResponse.json(data, { status: res.status });
 };
@@ -58,10 +62,11 @@ const signout = async (path: string) => {
   cookiesStore.set(refreshTokenCookieName, "", { ...defaultCookieOptions, expires: 0 });
   return NextResponse.json({ success: true });
 };
-
-const handler = async (req: Request) => {
-  const path = getPath(req);
-  const body = req.method !== "GET" && req.method !== "DELETE" ? await getBody(req) : undefined;
+const handler = async (req: NextRequest, { params }: { params: { path: string[] } }) => {
+  const path = getOriginPathname(req, params.path);
+  const body = req.method !== "GET" && req.method !== "DELETE"
+    ? await getStringifyBody(req)
+    : undefined;
   if (path === "/auth/signin") {
     return signin(path, body);
   }
@@ -73,8 +78,8 @@ const handler = async (req: Request) => {
     method: req.method,
     body,
     headers: {
-      ...req.headers,
-      ...(accessToken != null ? { "Authorization": `bearer ${accessToken}` } : {}),
+      "Content-Type": "application/json",
+      ...(accessToken != null && { "Authorization": `bearer ${accessToken}` }),
     },
   };
   const res = await fetch(`${baseURL}${path}`, fetchOption);
@@ -82,8 +87,8 @@ const handler = async (req: Request) => {
   return NextResponse.json(data, { status: res.status });
 };
 
-export const GET = (req: Request) => handler(req);
-export const POST = (req: Request) => handler(req);
-export const PATCH = (req: Request) => handler(req);
-export const PUT = (req: Request) => handler(req);
-export const DELETE = (req: Request) => handler(req);
+export const GET = handler;
+export const POST = handler;
+export const PATCH = handler;
+export const PUT = handler;
+export const DELETE = handler;
