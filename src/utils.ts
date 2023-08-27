@@ -37,7 +37,7 @@ export const getAccessToken = async () => {
   const decodeRefreshToken = decodeToken(refreshToken);
   const refreshTokenExpires = dayjs(decodeRefreshToken["exp"] * 1000);
   if (current.isAfter(refreshTokenExpires.add(-1, "hour"))) {
-    const data = await fetch(`${baseURL}/auth/refresh-token`, {
+    const { data } = await fetch(`${baseURL}/auth/refresh-token`, {
       method: "POST",
       body: JSON.stringify({ token: refreshToken }),
       headers: {
@@ -47,7 +47,7 @@ export const getAccessToken = async () => {
     refreshToken = data.refreshToken;
     cookiesStore.set(refreshTokenCookieName, data.refreshToken, { ...defaultCookieOptions, expires: dayjs(data.refreshTokenExpiredAt).toDate() })
   }
-  const data = await fetch(`${baseURL}/auth/access-token`, {
+  const { data } = await fetch(`${baseURL}/auth/access-token`, {
     method: "POST",
     body: JSON.stringify({ token: refreshToken }),
     headers: {

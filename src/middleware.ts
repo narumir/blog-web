@@ -23,7 +23,7 @@ const renewToken = async (token: string, url: string, res: NextResponse) => {
   if (response.status !== 200 && response.status !== 201) {
     throw new Error("fail to renew token.");
   }
-  const data = await response.json();
+  const { data } = await response.json();
   if (data.refreshToken != null) {
     res.cookies.set(refreshTokenCookieName, data.refreshToken, { ...defaultCookieOptions, expires: dayjs(data.refreshTokenExpiredAt).toDate() });
   }

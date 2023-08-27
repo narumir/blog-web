@@ -27,6 +27,5 @@ export const signin = async (body: LoginForm) => {
     },
   };
   const response = await fetch("/api/auth/signin", fetchOption);
-  const data = await response.json();
-  return data;
+  return response.json();
 };

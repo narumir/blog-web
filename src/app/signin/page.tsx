@@ -8,7 +8,7 @@ import {
 
 const getPublicKey = async () => {
   const res = await fetch(`${domain}/api/encrypt/public-key`, { method: "GET" });
-  const data = await res.json();
+  const { data } = await res.json();
   return data.publicKey;
 };
 const Signin = lazy(() => import("./signin"));

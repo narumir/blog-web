@@ -8,6 +8,6 @@ export const signout = async () => {
     body: JSON.stringify({}),
   };
   const response = await fetch("/api/auth/signout", fetchOption);
-  const data = await response.json();
+  const { data } = await response.json();
   return data;
 };
