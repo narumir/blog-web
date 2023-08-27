@@ -41,7 +41,14 @@ const Editor: FC<Props> = ({ data, onChange, className }) => {
       },
       placeholder: "당신의 창의성을 이야기해주세요.",
       tools: {
-        header: Header,
+        header: {
+          'class': (Header as any),
+          config: {
+            placeholder: "소제목을 입력하세요.",
+            levels: [2, 3, 4, 5, 6],
+            defaultLevel: 2,
+          },
+        },
         code: Code,
       },
       onChange: async (api) => {
