@@ -31,7 +31,7 @@ jobs:
           NEXT_PUBLIC_GA_MEASURE_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASURE_ID }}
 
       - name: Zipping built files
-        run: zip -r ${{ github.sha }}.zip .next Dockerfile
+        run: zip -r ${{ github.sha }}.zip .next image_loader.js package.json package-lock.json Dockerfile
 
       - name: Upload built artifact
         uses: actions/upload-artifact@v2
