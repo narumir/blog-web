@@ -8,6 +8,7 @@ const nextConfig = {
     loader: "custom",
     loaderFile: "./image_loader.js",
   },
+  output: "standalone",
 };
 
 module.exports = nextConfig;
