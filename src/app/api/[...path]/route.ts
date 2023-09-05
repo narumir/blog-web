@@ -81,6 +81,7 @@ const handler = async (req: NextRequest, { params }: { params: { path: string[] 
       "Content-Type": "application/json",
       ...(accessToken != null && { "Authorization": `bearer ${accessToken}` }),
     },
+    cache: "no-store",
   };
   const res = await fetch(`${baseURL}${path}`, fetchOption);
   const data = await res.json();
