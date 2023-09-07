@@ -21,15 +21,18 @@ const MainPage = async () => {
         <ul className="flex flex-wrap mt-8">
           {posts.map((post) => (
             <li key={post.id} className="w-full h-96 md:w-1/3">
-              <div className="w-full h-44">
-                <Image className="object-cover w-full h-full" width={100} height={100} alt="" src="/profile.png" />
-              </div>
+              {post.thumbnail != null &&
+                <div className="w-full h-44">
+                  <Image className="object-cover w-full h-full" alt="" src="/profile.webp" />
+                </div>
+              }
               <div className="p-4">
-                <span className="block">카테고리</span>
                 <h2 className="text-xl font-bold pt-2 text-ellipsis	line-clamp-1 overflow-hidden break-all">{post.title}</h2>
+                <span className="block">카테고리</span>
                 <div className="flex py-2">
-                  <Image src={"/profile.png"} width={100} height={100} alt="" className="w-6 h-6 rounded-full" />
-                  <span className="mx-2 text-[#808080]">posted by </span><Link href={"/"}>{post.user.nickname}</Link>
+                  <Image width={24} height={24} src="/profile.webp" alt="" className="w-6 h-6 rounded-full" />
+                  <span className="mx-2 text-[#808080]">posted by </span>
+                  <Link href={"/"}>{post.user.nickname}</Link>
                 </div>
                 <p className="text-ellipsis	line-clamp-2 overflow-hidden break-all pt-2">{post.preview}</p>
               </div>

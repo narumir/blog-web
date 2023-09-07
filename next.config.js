@@ -4,11 +4,11 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  images: {
-    loader: "custom",
-    loaderFile: "./image_loader.js",
-  },
   output: "standalone",
+  images: {
+    loader: 'custom',
+    loaderFile: './image_loader.js',
+  },
 };
 
 module.exports = nextConfig;

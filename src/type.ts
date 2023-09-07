@@ -13,6 +13,7 @@ export type Post = {
   preview: string,
   createdAt: string,
   updatedAt: string,
+  thumbnail?: string,
   user: User;
 };
 
