@@ -25,7 +25,7 @@ const getStringifyBody = async (req: NextRequest) => {
   const body = await req.json();
   return JSON.stringify(body ?? "");
 };
-const signin = async (path: string, body?: string) => {
+const login = async (path: string, body?: string) => {
   const fetchOption: RequestInit = {
     method: "POST",
     body,
@@ -67,8 +67,8 @@ const handler = async (req: NextRequest, { params }: { params: { path: string[] 
   const body = req.method !== "GET" && req.method !== "DELETE"
     ? await getStringifyBody(req)
     : undefined;
-  if (path === "/auth/signin") {
-    return signin(path, body);
+  if (path === "/auth/signin" || path === "/auth/join") {
+    return login(path, body);
   }
   if (path === "/auth/signout") {
     return signout(path);
