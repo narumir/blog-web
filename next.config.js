@@ -9,6 +9,9 @@ const nextConfig = {
     loader: 'custom',
     loaderFile: './image_loader.js',
   },
+  experimental: {
+    serverActions: true,
+  },
 };
 
 module.exports = nextConfig;

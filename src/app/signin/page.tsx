@@ -3,14 +3,9 @@ import {
   lazy,
 } from "react";
 import {
-  domain,
-} from "src/utils";
+  getPublicKey,
+} from "src/actions";
 
-const getPublicKey = async () => {
-  const res = await fetch(`${domain}/api/encrypt/public-key`, { method: "GET" });
-  const { data } = await res.json();
-  return data.publicKey;
-};
 const Signin = lazy(() => import("./signin"));
 const SigninPage = async () => {
   const publicKey = await getPublicKey();

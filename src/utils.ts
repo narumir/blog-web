@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import {
   cookies,
 } from "next/headers";
-export const domain = process.env.NEXT_PUBLIC_DOMAIN ?? "https://blog.narumir.io";
 export const baseURL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://api-blog.narumir.io";
 export type CookieOptions = {
   domain?: string;
@@ -64,3 +63,22 @@ export const decodeToken = (token: string) => {
 export const cn = (...classes: string[]) => {
   return classes.join(" ");
 };
+
+type HttpMethod = "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
+
+export const fetcher = async (method: HttpMethod, url: string, body?: any) => {
+  const accessToken = await getAccessToken();
+  const isBodyMethod = method !== "GET" && method !== "DELETE";
+  const fetchOption: RequestInit = {
+    method,
+    credentials: "include",
+    cache: "no-store",
+    headers: {
+      ...(isBodyMethod && { "Content-Type": "application/json" }),
+      ...(accessToken != null && { "Authorization": `bearer ${accessToken}` }),
+    },
+    body: isBodyMethod ? JSON.stringify(body) : undefined,
+  };
+  const response = await fetch(url, fetchOption);
+  return response.json();
+}

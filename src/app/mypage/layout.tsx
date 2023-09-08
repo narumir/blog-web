@@ -1,9 +1,9 @@
+import Link from "next/link";
+import SignOut from "./signout";
 import {
   FC,
   PropsWithChildren,
 } from "react";
-import SignOut from "./signout";
-import Link from "next/link";
 
 const MyPageLayout: FC<PropsWithChildren> = ({ children }) => {
   return (

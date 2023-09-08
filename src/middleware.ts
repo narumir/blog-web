@@ -37,7 +37,7 @@ export const middleware = async (req: NextRequest) => {
   const res = NextResponse.next();
   const cookiesStore = req.cookies;
   let refreshToken = cookiesStore.get(refreshTokenCookieName)?.value;
-  if (!cookiesStore.has(refreshTokenCookieName) || refreshToken == null) {
+  if (!cookiesStore.has(refreshTokenCookieName) || refreshToken == null || refreshToken.length === 0) {
     return res;
   }
   const current = dayjs();

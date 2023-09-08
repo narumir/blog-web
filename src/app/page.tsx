@@ -1,17 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Post,
-} from "src/type";
-import {
-  domain,
-} from "src/utils";
+  getPosts,
+} from "src/actions";
 
-const getPosts = async (): Promise<Post[]> => {
-  const res = await fetch(`${domain}/api/post`, { method: "GET", cache: 'no-store' });
-  const { data } = await res.json();
-  return data;
-};
 const MainPage = async () => {
   const posts = await getPosts();
   return (

@@ -1,10 +1,9 @@
 import {
   OutputData,
 } from "@editorjs/editorjs";
-
-export type User = {
-  nickname: string;
-}
+import {
+  User,
+} from "./user";
 
 export type Post = {
   id: string,
@@ -16,14 +15,3 @@ export type Post = {
   thumbnail?: string,
   user: User;
 };
-
-export type HttpError = {
-  status: number,
-  code: string,
-  field?: string,
-};
-
-export interface HttpResponse<T> {
-  data: T;
-  error?: HttpError;
-}

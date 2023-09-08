@@ -16,7 +16,7 @@ import {
 } from "src/render-editor";
 import {
   createPost,
-} from "./actions";
+} from "src/actions";
 
 const Editor = dynamic(() => import("src/components/editor"), { ssr: false });
 const CreatePostPage: NextPage = () => {
@@ -27,11 +27,11 @@ const CreatePostPage: NextPage = () => {
     setPost(output);
   }, []);
 
-  const savePost = () => {
-    createPost(title, post)
-      .then(({ data, error }) => {
-        console.log(data);
-      });
+  const savePost = async () => {
+    const res = await createPost(title, post);
+    if (res != null) {
+      alert("게시글을 작성하는데 문제가 발생했습니다.");
+    }
   };
 
   return (
