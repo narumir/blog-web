@@ -15,7 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="ko">
-      <body className="bg-[#fcfdfd]">
+      <body className="bg-[#F2F2F2]">
         <div className="w-full flex justify-stretch ">
           <Sidebar />
           <div className="flex-1 relative">

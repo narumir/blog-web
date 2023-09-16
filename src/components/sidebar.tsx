@@ -6,7 +6,7 @@ import {
   BuggerIcon,
 } from "src/icons";
 import {
-  Menu,
+  Nav,
 } from "src/components";
 import {
   useState,
@@ -22,16 +22,16 @@ export function Sidebar() {
   };
   const style = isSideExpend ? "w-64" : "w-24";
   return (
-    <aside className={cn("hidden md:block h-full border-r-2", style)}>
+    <aside className={cn("hidden md:block min-h-screen border-r-2", style)}>
       <div className="my-10 mx-8 flex justify-start items-center">
         <button className="w-8 h-8 inline-block" aria-label="menu expend" onClick={onBuggerClick}>
           <BuggerIcon />
         </button>
         <Link href={"/"} className="inline-block ml-6 h-8">
-          <Image width={100} height={32} src={"/logo.webp"} alt="logo" />
+          <Image priority width={100} height={30} src={"/logo.webp"} alt="logo" />
         </Link>
       </div>
-      <Menu expend={isSideExpend} />
+      <Nav expend={isSideExpend} />
     </aside>
   );
 }

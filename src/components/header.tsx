@@ -6,11 +6,17 @@ import {
   useState,
 } from "react";
 import {
+  Menu,
+} from "@headlessui/react";
+import {
   BuggerIcon,
+  DocumentIcon,
+  DuplicateDocumentIcon,
+  PencilSquare,
 } from "src/icons";
 import {
-  Menu,
-} from "./menu";
+  Nav,
+} from "./nvaigator";
 
 export function Header() {
   const [isShowMenu, setShowMenu] = useState<boolean>(false);
@@ -23,13 +29,32 @@ export function Header() {
         <button className="w-8 h-5 ml-8 md:hidden" aria-label="menu expend" onClick={onBuggerClick} >
           <BuggerIcon />
         </button>
-        <nav className="h-full mr-8 md:mr-16 flex justify-end items-center">
+        <div className="h-full mr-8 md:mr-16 flex justify-end items-center">
+          <Menu as="div" className="relative">
+            <Menu.Button className="mr-8">
+              <PencilSquare className="text-gray-500" />
+            </Menu.Button>
+            <Menu.Items className="absolute right-0 mt-2 w-40 bg-blue-500 text-white p-4 rounded-lg z-50">
+              <Menu.Item >
+                <Link href={"/"} className="mb-6 block">
+                  <DocumentIcon className="w-5 h-5 inline-block mr-4" />
+                  New post
+                </Link>
+              </Menu.Item>
+              <Menu.Item>
+                <Link href={"/"} className="block">
+                  <DuplicateDocumentIcon className="w-5 h-5 inline-block mr-4" />
+                  New series
+                </Link>
+              </Menu.Item>
+            </Menu.Items>
+          </Menu>
           <Link className="w-10 h-10 md:w-12 md:h-12 rounded-full" href={"/"}>
             <Image priority width={48} height={48} src="/user.webp" alt={""} />
           </Link>
-        </nav>
+        </div>
       </header>
-      {isShowMenu && <Menu onClick={() => setShowMenu(false)} absolute={isShowMenu} />}
+      {isShowMenu && <Nav onClick={() => setShowMenu(false)} absolute={isShowMenu} />}
     </>
   );
 }
