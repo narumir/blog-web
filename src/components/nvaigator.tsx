@@ -8,6 +8,7 @@ import {
   CubeTransparentIcon,
   DocumentIcon,
   DuplicateDocumentIcon,
+  NewsPaperIcon,
 } from "src/icons";
 
 const menus = [
@@ -27,9 +28,9 @@ const menus = [
     href: "/assets",
   },
   {
-    name: "New Feed",
-    Icon: DocumentIcon,
-    href: "/test",
+    name: "News",
+    Icon: NewsPaperIcon,
+    href: "/news",
   },
 ];
 
