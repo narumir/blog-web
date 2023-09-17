@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import {
-  useState,
+  Fragment,
 } from "react";
 import {
   Menu,
+  Popover,
 } from "@headlessui/react";
 import {
   BuggerIcon,
@@ -21,16 +22,12 @@ import {
 } from "./sign";
 
 export function Header() {
-  const [isShowMenu, setShowMenu] = useState<boolean>(false);
-  const onBuggerClick = () => {
-    setShowMenu((prev) => !prev);
-  };
   return (
-    <>
+    <Popover as={Fragment}>
       <header className="h-24 md:h-28 flex justify-between items-center md:justify-end border-b-2">
-        <button className="w-8 h-5 ml-8 md:hidden" aria-label="menu expend" onClick={onBuggerClick} >
+        <Popover.Button className="w-8 h-5 ml-8 md:hidden" aria-label="menu expend" >
           <BuggerIcon />
-        </button>
+        </Popover.Button>
         <div className="h-full mr-8 md:mr-16 flex justify-end items-center">
           <Menu as="div" className="relative">
             <Menu.Button className="mr-8">
@@ -54,7 +51,11 @@ export function Header() {
           <SignDialog />
         </div>
       </header>
-      {isShowMenu && <Nav onClick={onBuggerClick} absolute={isShowMenu} />}
-    </>
+      <Popover.Panel>
+        {({ close, open }) => (
+          <Nav onClick={close} absolute={open} />
+        )}
+      </Popover.Panel>
+    </Popover>
   );
 }
