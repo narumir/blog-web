@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 import {
+  KeyIcon,
   XMarkIcon,
 } from "src/icons";
 import {
@@ -150,6 +151,11 @@ function SignIn({ onCloseClick, switchSign }: SignInProps) {
           className="w-full rounded-2xl py-4 bg-violet-600 text-white font-bold mt-6"
         />
       </form>
+      <p className="text-gray-500 mt-8 mb-2">Signin via</p>
+      <div className="bg-blue-500 rounded-2xl text-white font-bold px-6 py-4 flex justify-between flex-1">
+        <KeyIcon className="" />
+        <span className="text-center block w-full">Signin via security key</span>
+      </div>
     </Dialog.Panel>
   );
 }
