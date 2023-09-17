@@ -1,7 +1,6 @@
 'use client';
 
 import Link from "next/link";
-import Image from "next/image";
 import {
   useState,
 } from "react";
@@ -17,6 +16,9 @@ import {
 import {
   Nav,
 } from "./nvaigator";
+import {
+  SignDialog,
+} from "./sign";
 
 export function Header() {
   const [isShowMenu, setShowMenu] = useState<boolean>(false);
@@ -49,12 +51,10 @@ export function Header() {
               </Menu.Item>
             </Menu.Items>
           </Menu>
-          <Link className="w-10 h-10 md:w-12 md:h-12 rounded-full" href={"/"}>
-            <Image priority width={48} height={48} src="/user.webp" alt={""} />
-          </Link>
+          <SignDialog />
         </div>
       </header>
-      {isShowMenu && <Nav onClick={() => setShowMenu(false)} absolute={isShowMenu} />}
+      {isShowMenu && <Nav onClick={onBuggerClick} absolute={isShowMenu} />}
     </>
   );
 }
