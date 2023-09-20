@@ -2,7 +2,6 @@
 
 import {
   Fragment,
-  useState,
 } from "react";
 import {
   cn,
@@ -11,13 +10,13 @@ import {
   ActiveLink,
 } from "./active-link";
 import {
+  ArrowRightOnRectangleIcon,
   CubeTransparentIcon,
   DocumentIcon,
   DuplicateDocumentIcon,
   NewsPaperIcon,
   SettingsIcon,
 } from "src/icons";
-import { Settings } from "./settings";
 
 const menus = [
   {
@@ -80,10 +79,9 @@ export function Nav({ absolute = false, expend = true, onClick, onSettingsClick 
           className="mx-4 border-1 border-gray-300"
         />
         <ul
-          className="mx-9 my-4"
+          className="mx-9 text-gray-500"
         >
-          <li className="text-gray-500">
-
+          <li className="my-6">
             <button
               onClick={handleSettingsOpen}
             >
@@ -91,6 +89,12 @@ export function Nav({ absolute = false, expend = true, onClick, onSettingsClick 
                 className="inline-block mr-4"
               />
               {expend && "Settings"}
+            </button>
+          </li>
+          <li className="my-6">
+            <button>
+              <ArrowRightOnRectangleIcon className="inline-block mr-4" />
+              {expend && "Sign Out"}
             </button>
           </li>
         </ul>
