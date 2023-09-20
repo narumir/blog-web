@@ -270,7 +270,7 @@ function SignUp({ onCloseClick, switchSign }: SignUpProps) {
           placeholder="Nickname"
           {...register("nickname", { required: true, minLength: 2 })}
         />
-        {errors.nickname?.type === "required" && <p className="text-red-500 text-xs">Enter an nickname</p>}
+        {errors.nickname?.type === "required" && <p className="text-red-500 text-xs">Enter a nickname</p>}
         {errors.nickname?.type === "minLength" && <p className="text-red-500 text-xs">Enter at least 2 characters</p>}
         <label
           htmlFor="password"
@@ -284,7 +284,7 @@ function SignUp({ onCloseClick, switchSign }: SignUpProps) {
           placeholder="Password"
           {...register("password", { required: true, minLength: 8, pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}$/ })}
         />
-        {errors.password?.type === "required" && <p className="text-red-500 text-xs">Enter an password</p>}
+        {errors.password?.type === "required" && <p className="text-red-500 text-xs">Enter a password</p>}
         {errors.password?.type === "pattern" && <p className="text-red-500 text-xs">Password must contain upper and lower case letters, numbers and special characters</p>}
         {errors.password?.type === "minLength" && <p className="text-red-500 text-xs">Enter a password of at least 8 characters</p>}
         <label
