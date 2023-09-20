@@ -3,6 +3,7 @@
 import Image from "next/image";
 import {
   Dialog,
+  Tab,
 } from "@headlessui/react";
 import {
   Fragment,
@@ -75,18 +76,39 @@ type SignInProps = {
   onCloseClick: () => void,
   switchSign: () => void,
 }
-type SignInForm = {
-  email: string,
-  password: string,
-}
 function SignIn({ onCloseClick, switchSign }: SignInProps) {
-  const { register, handleSubmit, formState: { errors } } = useForm<SignInForm>();
-  const onSignInSumbit: SubmitHandler<SignInForm> = (data) => {
-    console.log(data);
+  const [stepIndex, setStepIndex] = useState<number>(0);
+  const [email, setEmail] = useState<string>();
+  const [emailErrorMessage, setEmailErrorMessage] = useState<string>();
+  const [password, setPassword] = useState<string>();
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>();
+  const toPasswordStep = () => {
+    if (email == null || email.length < 4) {
+      setEmailErrorMessage("Enter an email");
+      return;
+    }
+    if (!/^[a-zA-Z0-9._%+=]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+      setEmailErrorMessage("Enter regular email");
+      return;
+    }
+    setEmailErrorMessage(undefined);
+    setStepIndex(1);
+  }
+  const signinViaPassword = () => {
+    if (password == null) {
+      setPasswordErrorMessage("Enter a password");
+      return;
+    }
+    if (password.length < 8) {
+      setPasswordErrorMessage("Enter a password of at least 8 characters");
+      return;
+    }
+    setPasswordErrorMessage(undefined);
+
   };
   return (
     <Dialog.Panel
-      className="w-full max-w-md h-screen  sm:h-fit sm:rounded-3xl p-6 sm:p-12 bg-white relative"
+      className="w-full max-w-md h-screen sm:h-fit sm:rounded-3xl p-6 sm:p-12 bg-white relative"
     >
       <Dialog.Title
         className="text-4xl font-semibold mt-8 sm:mt-0"
@@ -112,50 +134,64 @@ function SignIn({ onCloseClick, switchSign }: SignInProps) {
       >
         Create an account
       </button>
-      <form
-        onSubmit={handleSubmit(onSignInSumbit)}
-      >
-        <label
-          htmlFor="email"
-          className="block mb-2 text-gray-500"
-        >
-          Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          className="w-full bg-gray-100 py-4 px-6 font-semibold text-sm rounded-lg block"
-          placeholder="Email"
-          {...register("email", { required: true, pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ })}
-        />
-        {errors.email?.type === "required" && <p className="text-red-500 text-xs">Enter an email</p>}
-        {errors.email?.type === "pattern" && <p className="text-red-500 text-xs">Enter regular email</p>}
-        <label
-          htmlFor="password"
-          className="block mb-2 text-gray-500 mt-6"
-        >
-          Password
-        </label>
-        <input
-          id="password"
-          type="password"
-          className="w-full bg-gray-100 py-4 px-6 font-semibold text-sm rounded-lg block"
-          placeholder="Password"
-          {...register("password", { required: true, minLength: 8 })}
-        />
-        {errors.password?.type === "required" && <p className="text-red-500 text-xs">Enter an password</p>}
-        {errors.password?.type === "minLength" && <p className="text-red-500 text-xs">Enter a password of at least 8 characters</p>}
-        <input
-          type="submit"
-          value="Continue"
-          className="w-full rounded-2xl py-4 bg-violet-600 text-white font-bold mt-6"
-        />
-      </form>
-      <p className="text-gray-500 mt-8 mb-2">Signin via</p>
-      <div className="bg-blue-500 rounded-2xl text-white font-bold px-6 py-4 flex justify-between flex-1">
-        <KeyIcon className="" />
-        <span className="text-center block w-full">Signin via security key</span>
-      </div>
+      <Tab.Group as={Fragment} selectedIndex={stepIndex} onChange={setStepIndex} defaultIndex={0}>
+        <Tab.List as="div" className="hidden">
+          <Tab>email</Tab>
+          <Tab>password</Tab>
+        </Tab.List>
+        <Tab.Panels>
+          <Tab.Panel>
+            <label
+              htmlFor="email"
+              className="block mb-2 text-gray-500"
+            >
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              className="w-full bg-gray-100 py-4 px-6 font-semibold text-sm rounded-lg block"
+              placeholder="Email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+            {emailErrorMessage && <p className="text-red-500 text-xs">{emailErrorMessage}</p>}
+            <button
+              className="w-full rounded-2xl py-4 bg-violet-600 text-white font-bold mt-4"
+              onClick={toPasswordStep}
+            >
+              Continue
+            </button>
+            <div className="bg-blue-500 rounded-2xl text-white font-bold px-6 py-4 mt-4 flex justify-between flex-1">
+              <KeyIcon className="" />
+              <span className="text-center block w-full">Signin via security key</span>
+            </div>
+          </Tab.Panel>
+          <Tab.Panel>
+            <label
+              htmlFor="password"
+              className="block mb-2 text-gray-500"
+            >
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              className="w-full bg-gray-100 py-4 px-6 font-semibold text-sm rounded-lg block"
+              placeholder="Password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+            {passwordErrorMessage && <p className="text-red-500 text-xs">{passwordErrorMessage}</p>}
+            <button
+              onClick={signinViaPassword}
+              className="w-full rounded-2xl py-4 bg-violet-600 text-white font-bold mt-6"
+            >
+              Sign in
+            </button>
+          </Tab.Panel>
+        </Tab.Panels>
+      </Tab.Group>
     </Dialog.Panel>
   );
 }

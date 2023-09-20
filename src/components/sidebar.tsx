@@ -14,8 +14,12 @@ import {
 import {
   cn,
 } from "src/utils";
+import {
+  Settings,
+} from "./settings";
 
 export function Sidebar() {
+  const [isSettingsOpen, setSettingsOpen] = useState<boolean>(false);
   const [isSideExpend, setSideExpend] = useState<boolean>(true);
   const onBuggerClick = () => {
     setSideExpend((prev) => !prev);
@@ -31,7 +35,8 @@ export function Sidebar() {
           <Image priority width={100} height={30} src={"/logo.webp"} alt="logo" />
         </Link>
       </div>
-      <Nav expend={isSideExpend} />
+      <Nav expend={isSideExpend} onSettingsClick={() => setSettingsOpen(true)} />
+      <Settings isOpen={isSettingsOpen} close={() => setSettingsOpen(false)} />
     </aside>
   );
 }
