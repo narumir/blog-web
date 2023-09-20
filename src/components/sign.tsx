@@ -108,7 +108,7 @@ function SignIn({ onCloseClick, switchSign }: SignInProps) {
   };
   return (
     <Dialog.Panel
-      className="w-full max-w-md h-screen sm:h-fit sm:rounded-3xl p-6 sm:p-12 bg-white relative"
+      className="w-full max-w-md overflow-y-auto h-screen max-h-screen sm:h-fit sm:rounded-3xl p-6 sm:p-12 bg-white relative"
     >
       <Dialog.Title
         className="text-4xl font-semibold mt-8 sm:mt-0"
@@ -213,7 +213,7 @@ function SignUp({ onCloseClick, switchSign }: SignUpProps) {
   };
   return (
     <Dialog.Panel
-      className="w-full max-w-md h-screen  sm:h-fit sm:rounded-3xl p-6 sm:p-12 bg-white relative"
+      className="w-full max-w-md h-screen overflow-y-auto max-h-screen sm:h-fit sm:rounded-3xl p-6 sm:p-12 bg-white relative"
     >
       <Dialog.Title
         className="text-4xl font-semibold mt-8 sm:mt-0"
@@ -257,6 +257,7 @@ function SignUp({ onCloseClick, switchSign }: SignUpProps) {
         />
         {errors.email?.type === "required" && <p className="text-red-500 text-xs">Enter an email</p>}
         {errors.email?.type === "pattern" && <p className="text-red-500 text-xs">Enter regular email</p>}
+        {errors.email?.type === "validate" && <p className="text-red-500 text-xs">Already used email</p>}
         <label
           htmlFor="nickname"
           className="block mb-2 text-gray-500 mt-6"
@@ -268,10 +269,11 @@ function SignUp({ onCloseClick, switchSign }: SignUpProps) {
           type="text"
           className="w-full bg-gray-100 py-4 px-6 font-semibold text-sm rounded-lg block"
           placeholder="Nickname"
-          {...register("nickname", { required: true, minLength: 2 })}
+          {...register("nickname", { required: true, minLength: 2, validate: async () => { return true } })}
         />
         {errors.nickname?.type === "required" && <p className="text-red-500 text-xs">Enter a nickname</p>}
         {errors.nickname?.type === "minLength" && <p className="text-red-500 text-xs">Enter at least 2 characters</p>}
+        {errors.nickname?.type === "validate" && <p className="text-red-500 text-xs">Already used nickname</p>}
         <label
           htmlFor="password"
           className="block mb-2 text-gray-500 mt-6">

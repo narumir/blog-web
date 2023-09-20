@@ -33,13 +33,13 @@ export function Settings({ isOpen, close }: Props) {
         aria-hidden="true"
       />
       <div
-        className="fixed inset-0 flex w-screen items-center  justify-center sm:p-4"
+        className="fixed inset-0 flex w-screen items-center justify-center sm:p-4"
       >
         <Dialog.Panel
-          className="w-full max-w-md overflow-y-auto h-screen sm:h-fit sm:rounded-3xl p-6 sm:p-12 bg-white relative"
+          className="w-full max-w-md overflow-y-auto h-screen sm:h-fit max-h-screen sm:rounded-3xl p-6 sm:p-12 bg-white relative"
         >
           <Dialog.Title
-            className="text-4xl font-semibold mt-8 sm:mt-0 mb-8"
+            className="text-4xl font-semibold mt-8 sm:mt-0 mb-6"
           >
             Settings
           </Dialog.Title>
@@ -60,7 +60,7 @@ export function Settings({ isOpen, close }: Props) {
               >
                 {({ selected }) => (
                   <button
-                    className={cn("py-1 px-3 rounded-xl text-sm border-[1px] border-violet-500", selected ? "bg-violet-500 text-white" : "")}
+                    className={cn("py-1 px-3 rounded-xl text-sm border-[1px] border-violet-500 mt-2", selected ? "bg-violet-500 text-white" : "")}
                   >
                     Profile
                   </button>
@@ -71,7 +71,7 @@ export function Settings({ isOpen, close }: Props) {
               >
                 {({ selected }) => (
                   <button
-                    className={cn("py-1 px-3 rounded-xl text-sm border-[1px] border-violet-500", selected ? "bg-violet-500 text-white" : "")}
+                    className={cn("py-1 px-3 rounded-xl text-sm border-[1px] border-violet-500 mt-2", selected ? "bg-violet-500 text-white" : "")}
                   >
                     Password
                   </button>
@@ -82,7 +82,7 @@ export function Settings({ isOpen, close }: Props) {
               >
                 {({ selected }) => (
                   <button
-                    className={cn("py-1 px-3 rounded-xl text-sm border-[1px] border-violet-500", selected ? "bg-violet-500 text-white" : "")}
+                    className={cn("py-1 px-3 rounded-xl text-sm border-[1px] border-violet-500 mt-2", selected ? "bg-violet-500 text-white" : "")}
                   >
                     MFA
                   </button>
@@ -93,7 +93,7 @@ export function Settings({ isOpen, close }: Props) {
               >
                 {({ selected }) => (
                   <button
-                    className={cn("py-1 px-3 rounded-xl text-sm border-[1px] border-violet-500", selected ? "bg-violet-500 text-white" : "")}
+                    className={cn("py-1 px-3 rounded-xl text-sm border-[1px] border-violet-500 mt-2", selected ? "bg-violet-500 text-white" : "")}
                   >
                     Security Key
                   </button>
