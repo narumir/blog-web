@@ -53,7 +53,7 @@ export function Settings({ isOpen, close }: Props) {
           </button>
           <Tab.Group>
             <Tab.List
-              className="w-full flex justify-between flex-wrap"
+              className="w-full"
             >
               <Tab
                 as={Fragment}
@@ -71,31 +71,9 @@ export function Settings({ isOpen, close }: Props) {
               >
                 {({ selected }) => (
                   <button
-                    className={cn("py-1 px-3 rounded-xl text-sm border-[1px] border-violet-500 mt-2", selected ? "bg-violet-500 text-white" : "")}
+                    className={cn("py-1 px-3 rounded-xl text-sm border-[1px] border-violet-500 mt-2 ml-2", selected ? "bg-violet-500 text-white" : "")}
                   >
                     Password
-                  </button>
-                )}
-              </Tab>
-              <Tab
-                as={Fragment}
-              >
-                {({ selected }) => (
-                  <button
-                    className={cn("py-1 px-3 rounded-xl text-sm border-[1px] border-violet-500 mt-2", selected ? "bg-violet-500 text-white" : "")}
-                  >
-                    MFA
-                  </button>
-                )}
-              </Tab>
-              <Tab
-                as={Fragment}
-              >
-                {({ selected }) => (
-                  <button
-                    className={cn("py-1 px-3 rounded-xl text-sm border-[1px] border-violet-500 mt-2", selected ? "bg-violet-500 text-white" : "")}
-                  >
-                    Security Key
                   </button>
                 )}
               </Tab>
