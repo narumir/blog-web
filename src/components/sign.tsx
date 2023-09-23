@@ -164,7 +164,7 @@ function SignIn({ onCloseClick, switchSign }: SignInProps) {
             </button>
             <div className="bg-blue-500 rounded-2xl text-white font-bold px-6 py-4 mt-4 flex justify-between flex-1">
               <KeyIcon className="" />
-              <span className="text-center block w-full">Signin via security key</span>
+              <span className="text-center block w-full">Signin via passkeys</span>
             </div>
           </Tab.Panel>
           <Tab.Panel>

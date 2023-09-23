@@ -28,8 +28,8 @@ const securitySettings = [
     href: "/mypage/mfa",
   },
   {
-    name: "Register Keypass",
-    href: "/mypage/keypass",
+    name: "Register passkeys",
+    href: "/mypage/passkeys",
   },
   {
     name: "Deactive account",
