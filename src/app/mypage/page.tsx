@@ -20,6 +20,10 @@ const manageContents = [
 
 const securitySettings = [
   {
+    name: "Update nickname",
+    href: "/mypage/change-nickname",
+  },
+  {
     name: "Update password",
     href: "/mypage/change-password",
   },
