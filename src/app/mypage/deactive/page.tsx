@@ -4,51 +4,52 @@ import {
   Dialog,
 } from "@headlessui/react";
 import {
+  Fragment,
   useState,
 } from "react";
 import {
-  ArrowLeftIcon, XMarkIcon,
+  XMarkIcon,
 } from "src/icons";
+import {
+  MYPageSubLayout,
+} from "../mypage-sublayout";
 
 export default function DeactivePage() {
   const [pwModalOpen, setPWModalOpen] = useState<boolean>(false);
   return (
-    <div
-      className="p-4"
-    >
-      <div
-        className="w-full md:max-w-[760px] m-auto rounded-2xl bg-white p-4"
+    <Fragment>
+      <MYPageSubLayout
+        title="Deactive account"
       >
-        <div
-          className="flex items-center py-2"
-        >
-          <button>
-            <ArrowLeftIcon
-              className="text-black"
-            />
-          </button>
-          <h2
-            className="text-xl font-bold ml-2"
-          >
-            Deactive account
-          </h2>
-        </div>
         <p
           className="my-4"
-        >I'm sorry to see you go.<br />Please note that all your content will be permanently delete upon account deletion.</p>
+        >
+          I'm sorry to see you go.<br />Please note that all your content will be permanently delete upon account deletion.
+        </p>
         <button
           className="bg-red-500 rounded-2xl text-white py-2 w-full"
           onClick={() => setPWModalOpen(true)}
         >
           deactive
         </button>
-      </div>
-      <Dialog open={pwModalOpen} onClose={setPWModalOpen}>
-        <div className="fixed inset-0 bg-black bg-opacity-25" aria-hidden="true"
+      </MYPageSubLayout>
+      <Dialog
+        open={pwModalOpen}
+        onClose={setPWModalOpen}
+      >
+        <div
+          className="fixed inset-0 bg-black bg-opacity-25"
+          aria-hidden="true"
         />
-        <div className="fixed inset-0 flex w-screen items-center justify-center sm:p-4">
-          <Dialog.Panel className="w-full max-w-md overflow-y-auto h-screen sm:h-fit max-h-screen sm:rounded-3xl p-6 sm:p-12 bg-white relative">
-            <Dialog.Title className="text-2xl font-semibold mt-8 sm:mt-0 mb-6">
+        <div
+          className="fixed inset-0 flex w-screen items-center justify-center sm:p-4"
+        >
+          <Dialog.Panel
+            className="w-full max-w-md overflow-y-auto h-screen sm:h-fit max-h-screen sm:rounded-3xl p-6 sm:p-12 bg-white relative"
+          >
+            <Dialog.Title
+              className="text-2xl font-semibold mt-8 sm:mt-0 mb-6"
+            >
               Enter password
             </Dialog.Title>
             <button
@@ -79,6 +80,6 @@ export default function DeactivePage() {
           </Dialog.Panel>
         </div>
       </Dialog>
-    </div>
+    </Fragment>
   );
 }

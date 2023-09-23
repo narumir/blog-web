@@ -11,13 +11,17 @@ import {
   Switch,
 } from "@headlessui/react";
 import {
+  Fragment,
   useLayoutEffect,
   useRef,
   useState,
 } from "react";
 import {
-  ArrowLeftIcon, XMarkIcon,
+  XMarkIcon,
 } from "src/icons";
+import {
+  MYPageSubLayout,
+} from "../mypage-sublayout";
 
 export default function MFAPage() {
   const [MFAEnabled, setMFAEnabled] = useState<boolean>(false);
@@ -38,26 +42,10 @@ export default function MFAPage() {
     createQRCode(qrcodeRef.current, "https://blog.narumir.io");
   }, []);
   return (
-    <div
-      className="p-4"
-    >
-      <div
-        className="w-full md:max-w-[760px] m-auto rounded-2xl bg-white p-4"
+    <Fragment>
+      <MYPageSubLayout
+        title="Manage MFA"
       >
-        <div
-          className="flex items-center py-2"
-        >
-          <button>
-            <ArrowLeftIcon
-              className="text-black"
-            />
-          </button>
-          <h2
-            className="text-xl font-bold ml-2"
-          >
-            Manage MFA
-          </h2>
-        </div>
         <div
           className="flex justify-between items-center text-gray-500"
         >
@@ -96,7 +84,11 @@ export default function MFAPage() {
           <p>r3d32ds4</p>
           <p>r3d32ds4</p>
         </div>
-        <p className="text-xs text-red-500">The above code must always be backed up. And for security reasons, it will not be shown again.</p>
+        <p
+          className="text-xs text-red-500"
+        >
+          The above code must always be backed up. And for security reasons, it will not be shown again.
+        </p>
         <label
           htmlFor="mfa"
           className="block mb-2 text-gray-500 mt-6"
@@ -119,13 +111,24 @@ export default function MFAPage() {
         >
           active
         </button>
-      </div>
-      <Dialog open={pwModalOpen} onClose={() => undefined}>
-        <div className="fixed inset-0 bg-black bg-opacity-25" aria-hidden="true"
+      </MYPageSubLayout>
+      <Dialog
+        open={pwModalOpen}
+        onClose={() => undefined}
+      >
+        <div
+          className="fixed inset-0 bg-black bg-opacity-25"
+          aria-hidden="true"
         />
-        <div className="fixed inset-0 flex w-screen items-center justify-center sm:p-4">
-          <Dialog.Panel className="w-full max-w-md overflow-y-auto h-screen sm:h-fit max-h-screen sm:rounded-3xl p-6 sm:p-12 bg-white relative">
-            <Dialog.Title className="text-2xl font-semibold mt-8 sm:mt-0 mb-6">
+        <div
+          className="fixed inset-0 flex w-screen items-center justify-center sm:p-4"
+        >
+          <Dialog.Panel
+            className="w-full max-w-md overflow-y-auto h-screen sm:h-fit max-h-screen sm:rounded-3xl p-6 sm:p-12 bg-white relative"
+          >
+            <Dialog.Title
+              className="text-2xl font-semibold mt-8 sm:mt-0 mb-6"
+            >
               Enter password
             </Dialog.Title>
             <button
@@ -155,8 +158,7 @@ export default function MFAPage() {
             </button>
           </Dialog.Panel>
         </div>
-
       </Dialog>
-    </div>
+    </Fragment >
   );
 }
