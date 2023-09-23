@@ -15,7 +15,6 @@ import {
 } from "./textarea-form";
 
 type ProfileProps = {
-  email: string,
   bio: string,
 }
 export function UpdateProfile() {
@@ -61,21 +60,6 @@ export function UpdateProfile() {
         className="mt-6"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <label
-          htmlFor="email"
-          className="block mb-2 text-gray-500"
-        >
-          Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          className="w-full bg-gray-100 py-4 px-6 font-semibold text-sm rounded-lg block"
-          placeholder="Email"
-          {...register("email", { required: true, pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ })}
-        />
-        {errors.email?.type === "required" && <p className="text-red-500 text-xs">Enter an email</p>}
-        {errors.email?.type === "pattern" && <p className="text-red-500 text-xs">Enter regular email</p>}
         <label
           htmlFor="bio"
           className="block mb-2 text-gray-500 mt-6"
