@@ -14,10 +14,6 @@ import {
 import {
   UpdateProfile,
 } from "./update-profile";
-import {
-  UpdatePassword,
-} from "./update-password";
-
 type Props = {
   isOpen: boolean,
   close: () => void,
@@ -66,24 +62,10 @@ export function Settings({ isOpen, close }: Props) {
                   </button>
                 )}
               </Tab>
-              <Tab
-                as={Fragment}
-              >
-                {({ selected }) => (
-                  <button
-                    className={cn("py-1 px-3 rounded-xl text-sm border-[1px] border-violet-500 mt-2 ml-2", selected ? "bg-violet-500 text-white" : "")}
-                  >
-                    Password
-                  </button>
-                )}
-              </Tab>
             </Tab.List>
             <Tab.Panels>
               <Tab.Panel>
                 <UpdateProfile />
-              </Tab.Panel>
-              <Tab.Panel>
-                <UpdatePassword />
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>

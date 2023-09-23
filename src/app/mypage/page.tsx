@@ -20,6 +20,10 @@ const manageContents = [
 
 const securitySettings = [
   {
+    name: "Update password",
+    href: "/mypage/change-password",
+  },
+  {
     name: "Signin history",
     href: "/mypage/signin-history",
   },
