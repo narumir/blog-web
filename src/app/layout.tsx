@@ -1,44 +1,42 @@
 import {
-  FC,
   PropsWithChildren,
 } from "react";
 import {
   Header,
-  Footer,
+  Sidebar
 } from "src/components";
 import {
-  cn,
+  getAuthorization,
 } from "src/utils";
-import {
-  notoSans,
-  notoSansJP,
-  notoSansKR,
-} from "src/fonts";
-import {
-  AnalyticsScripts,
-} from "./analytics-scripts";
-import "./global.css";
+import "./globals.css";
 
-const Layout: FC<PropsWithChildren> = ({ children }) => {
+export const metadata = {
+  title: "narumir's blog",
+  description: "narumir's blog",
+};
+
+export default async function RootLayout({ children }: PropsWithChildren) {
+  const auth = await getAuthorization();
   return (
-    <html lang="ko" className={cn(notoSans.className, notoSansKR.className, notoSansJP.className)}>
-      <head>
-        <meta charSet="UTF-8" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=Edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>narumir의 블로그 입니다.</title>
-      </head>
-      <body className="text-[#333] safe-area-top safe-area-bottom">
-        <Header />
-        <main>
-          {children}
-        </main>
-        <Footer />
-        <AnalyticsScripts />
+    <html
+      lang="ko"
+    >
+      <body
+        className="bg-[#F2F2F2] w-full flex justify-stretch"
+      >
+        <Sidebar />
+        <div
+          className="flex-1 relative"
+        >
+          <Header
+            isAuth={auth.isAuth}
+            profile={auth.profile}
+          />
+          <main>
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   );
-};
-
-export const runtime = 'edge';
-export default Layout;
+}

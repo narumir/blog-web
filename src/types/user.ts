@@ -1,3 +1,5 @@
 export type User = {
-  nickname: string;
+  nickname: string,
+  profileImage: string,
+
 }

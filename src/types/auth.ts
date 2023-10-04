@@ -1,11 +1,25 @@
-export type JoinForm = {
-  username: string;
-  nickname: string;
-  password: string;
-  passwordCheck: string;
+export type AuthToken = {
+  sub: string,
+  nickname: string,
+  profile: string,
+  iat: number,
+  exp: number,
 }
 
-export type LoginForm = {
-  username: string;
-  password: string;
-}
+export type CookieOptions = {
+  domain?: string;
+  expires?: Date;
+  httpOnly?: boolean;
+  path?: string;
+  sameSite?: boolean | 'lax' | 'strict' | 'none';
+  secure?: boolean;
+  priority?: 'low' | 'medium' | 'high';
+  maxAge?: number;
+};
+
+export type ResponseToken = {
+  accessToken: string,
+  accessTokenExpiredAt: number,
+  refreshToken: string,
+  refreshTokenExpiredAt: number,
+};
