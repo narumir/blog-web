@@ -6,27 +6,20 @@ import {
   BuggerIcon,
 } from "src/icons";
 import {
-  Nav,
+  Navigator,
 } from "src/components";
 import {
   useState,
 } from "react";
-import {
-  cn,
-} from "src/utils";
-import {
-  Settings,
-} from "./settings";
 
 export function Sidebar() {
-  const [isSettingsOpen, setSettingsOpen] = useState<boolean>(false);
   const [isSideExpend, setSideExpend] = useState<boolean>(true);
   const onBuggerClick = () => {
     setSideExpend((prev) => !prev);
   };
   const style = isSideExpend ? "w-64" : "w-24";
   return (
-    <aside className={cn("hidden md:block min-h-screen border-r-2", style)}>
+    <aside className={`hidden md:block min-h-screen border-r-2 ${style}`}>
       <div className="my-10 mx-8 flex justify-start items-center">
         <button className="w-8 h-8 inline-block" aria-label="menu expend" onClick={onBuggerClick}>
           <BuggerIcon />
@@ -35,8 +28,7 @@ export function Sidebar() {
           <Image priority width={100} height={30} src={"/logo.webp"} alt="logo" />
         </Link>
       </div>
-      <Nav expend={isSideExpend} onSettingsClick={() => setSettingsOpen(true)} />
-      <Settings isOpen={isSettingsOpen} close={() => setSettingsOpen(false)} />
+      <Navigator expend={isSideExpend} />
     </aside>
   );
 }

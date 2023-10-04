@@ -5,6 +5,9 @@ import {
   Header,
   Sidebar
 } from "src/components";
+import {
+  getAuthorization,
+} from "src/utils";
 import "./globals.css";
 
 export const metadata = {
@@ -12,18 +15,26 @@ export const metadata = {
   description: "narumir's blog",
 };
 
-export default function RootLayout({ children }: PropsWithChildren) {
+export default async function RootLayout({ children }: PropsWithChildren) {
+  const auth = await getAuthorization();
   return (
-    <html lang="ko">
-      <body className="bg-[#F2F2F2]">
-        <div className="w-full flex justify-stretch ">
-          <Sidebar />
-          <div className="flex-1 relative">
-            <Header />
-            <main>
-              {children}
-            </main>
-          </div>
+    <html
+      lang="ko"
+    >
+      <body
+        className="bg-[#F2F2F2] w-full flex justify-stretch"
+      >
+        <Sidebar />
+        <div
+          className="flex-1 relative"
+        >
+          <Header
+            isAuth={auth.isAuth}
+            profile={auth.profile}
+          />
+          <main>
+            {children}
+          </main>
         </div>
       </body>
     </html>
