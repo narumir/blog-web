@@ -1,39 +1,31 @@
 {
-  "name": "blog",
-  "version": "0.1.0",
+  "name": "blog-web",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "start": "next start",
-    "lint": "next lint",
-    "build": "next build"
+    "build": "react-router build",
+    "dev": "react-router dev",
+    "start": "react-router-serve ./build/server/index.js",
+    "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "@editorjs/code": "^2.8.0",
-    "@editorjs/editorjs": "^2.28.0",
-    "@editorjs/header": "^2.7.0",
-    "@headlessui/react": "^1.7.17",
-    "dayjs": "^1.11.10",
-    "jsencrypt": "^3.3.2",
-    "next": "^13.5.4",
-    "qrcode": "^1.5.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-hook-form": "^7.47.0",
-    "sanitize-html": "^2.11.0"
+    "@react-router/node": "^7.1.1",
+    "@react-router/serve": "^7.1.1",
+    "isbot": "^5.1.17",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router": "^7.1.1"
   },
   "devDependencies": {
-    "@types/editorjs__header": "^2.6.1",
-    "@types/node": "^20.8.2",
-    "@types/qrcode": "^1.5.2",
-    "@types/react": "^18.2.24",
-    "@types/react-dom": "^18.2.9",
-    "@types/sanitize-html": "^2.9.1",
-    "autoprefixer": "^10.4.16",
-    "eslint": "^8.50.0",
-    "eslint-config-next": "^13.5.4",
-    "postcss": "^8.4.31",
-    "tailwindcss": "^3.3.3",
-    "typescript": "^5.2.2"
+    "@react-router/dev": "^7.1.1",
+    "@types/node": "^20",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11",
+    "vite-tsconfig-paths": "^5.1.4"
   }
 }
