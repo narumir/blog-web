@@ -1,3 +1,4 @@
+import stylesheet from "./app.css?url";
 import {
   isRouteErrorResponse,
   Links,
@@ -5,10 +6,23 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "react-router";
+import {
+  DarkModeProvider,
+} from "~/contexts";
+import {
+  themeCookie,
+} from "./theme-cookie";
+import type {
+  Route,
+} from "./+types/root";
 
-import type { Route } from "./+types/root";
-import stylesheet from "./app.css?url";
+export async function loader({ request }: Route.LoaderArgs) {
+  const cookieHeader = request.headers.get("Cookie");
+  const isDarkMode = (await themeCookie.parse(cookieHeader)) === "dark";
+  return { isDarkMode };
+}
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -25,20 +39,23 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const { isDarkMode } = useLoaderData<typeof loader>();
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        {children}
-        <ScrollRestoration />
-        <Scripts />
-      </body>
-    </html>
+    <DarkModeProvider initialMode={isDarkMode}>
+      <html lang="ko" className={`${isDarkMode ? "dark dark-scheme" : ""}`}>
+        <head>
+          <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <Meta />
+          <Links />
+        </head>
+        <body>
+          {children}
+          <ScrollRestoration />
+          <Scripts />
+        </body>
+      </html>
+    </DarkModeProvider>
   );
 }
 
