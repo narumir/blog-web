@@ -13,7 +13,7 @@ import {
 } from "~/contexts";
 import {
   themeCookie,
-} from "./theme-cookie";
+} from "./cookies";
 import type {
   Route,
 } from "./+types/root";

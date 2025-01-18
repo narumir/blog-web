@@ -7,7 +7,7 @@ export function DarkModeButton() {
   return (
     <button
       type="button"
-      className="w-10 h-10 inline-flex items-center justify-center focus-visible:outline-none hover:bg-[#ffffff] dark:hover:bg-[#27272a]"
+      className="w-10 h-10 inline-flex items-center justify-center focus-visible:outline-none hover:bg-[#E5E7EB] dark:hover:bg-[#27272a]"
       onClick={toggleDarkMode}
     >
       <img

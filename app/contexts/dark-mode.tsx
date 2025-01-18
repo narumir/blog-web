@@ -7,7 +7,7 @@ import {
 } from "react";
 import {
   themeCookie,
-} from "~/theme-cookie";
+} from "~/cookies";
 
 type DarkModeContextState = {
   isDarkMode: boolean,
