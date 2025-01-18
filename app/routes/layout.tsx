@@ -53,11 +53,9 @@ export async function loader({ request }: Route.LoaderArgs) {
 
 export default function RootLayout() {
   const onLogout = async (e: MouseEvent<HTMLButtonElement>) => {
-    const res = await fetch("/api/logout", { method: "POST" });
-    const data = await res.json();
+    await fetch("/api/logout", { method: "POST" });
     alert("로그아웃 되었습니다.");
   };
-
   const profile = useLoaderData<typeof loader>();
   return (
     <Fragment>
@@ -81,7 +79,7 @@ export default function RootLayout() {
               />
             </MenuButton>
             <MenuItems
-              className="absolute top-full right-0 border  w-64 mt-4"
+              className="absolute top-full right-0 border w-64 mt-4 bg-white dark:bg-[#212121] z-50"
             >
               {profile != null && <MenuItem>
                 <Link
@@ -95,11 +93,16 @@ export default function RootLayout() {
               <MenuItem>
                 {profile != null
                   ? <button
+                    type="button"
+                    className="p-4 block"
                     onClick={onLogout}
                   >
                     로그아웃
                   </button>
-                  : <Link to="/login">
+                  : <Link
+                    className="p-4 block"
+                    to="/login"
+                  >
                     로그인
                   </Link>}
               </MenuItem>
