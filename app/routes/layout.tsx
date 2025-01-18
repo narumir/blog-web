@@ -55,6 +55,7 @@ export default function RootLayout() {
   const onLogout = async (e: MouseEvent<HTMLButtonElement>) => {
     await fetch("/api/logout", { method: "POST" });
     alert("로그아웃 되었습니다.");
+    location.reload();
   };
   const profile = useLoaderData<typeof loader>();
   return (
