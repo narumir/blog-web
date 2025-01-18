@@ -1,16 +1,59 @@
+import axios from "~/axios";
+import dayjs from "dayjs";
 import {
   Field,
   Input,
   Label,
 } from "@headlessui/react";
 import {
+  Form,
   Link,
+  redirect,
+  useActionData,
+  type ActionFunctionArgs,
 } from "react-router";
+import {
+  z,
+} from "zod";
 import {
   DarkModeButton,
 } from "~/components/dark-mode-button";
+import {
+  accessTokenCookie,
+  refreshTokenCookie,
+} from "~/cookies";
+import {
+  FormErrorMessage,
+} from "~/components/form-error-message";
+import type {
+  AuthToken,
+} from "~/models";
+
+const schema = z.object({
+  username: z.string().nonempty({ message: "아이디를 입력하세요" }),
+  password: z.string().nonempty({ message: "비밀번호를 입력하세요" }),
+});
+
+export async function action({
+  request,
+}: ActionFunctionArgs) {
+  const formData = Object.fromEntries(await request.formData());
+  const result = schema.safeParse(formData);
+  if (!result.success) {
+    const errors = result.error.flatten().fieldErrors;
+    return { errors };
+  }
+  const { data } = await axios.post<AuthToken>(`/api/v1/auth/login`, result.data);
+  return redirect("/", {
+    headers: [
+      ["Set-Cookie", await accessTokenCookie.serialize(data.accessToken, { expires: dayjs(data.accessTokenExpires).toDate() })],
+      ["Set-Cookie", await refreshTokenCookie.serialize(data.refreshToken, { expires: dayjs(data.refreshTokenExpires).toDate() })],
+    ],
+  });
+}
 
 export default function LoginPage() {
+  const data = useActionData<Awaited<typeof action>>();
   return (
     <div
       className="min-h-screen flex justify-center items-center"
@@ -22,7 +65,7 @@ export default function LoginPage() {
           className="flex justify-between p-6"
         >
           <div
-            className="flex flex-col space-y-1.5 p-6"
+            className="flex flex-col space-y-1.5"
           >
             <h1
               className="text-2xl font-semibold leading-none tracking-tight"
@@ -37,7 +80,8 @@ export default function LoginPage() {
           </div>
           <DarkModeButton />
         </div>
-        <form
+        <Form
+          method="POST"
           className="px-6 space-y-2"
         >
           <Field>
@@ -48,6 +92,10 @@ export default function LoginPage() {
             </Label>
             <Input
               className="w-full h-10 rounded-md px-3 py-2 text-sm"
+              name="username"
+            />
+            <FormErrorMessage
+              messages={data?.errors.username}
             />
           </Field>
           <Field>
@@ -59,6 +107,10 @@ export default function LoginPage() {
             <Input
               type="password"
               className="w-full h-10 rounded-md px-3 py-2 text-sm"
+              name="password"
+            />
+            <FormErrorMessage
+              messages={data?.errors.password}
             />
           </Field>
           <Input
@@ -66,7 +118,7 @@ export default function LoginPage() {
             type="submit"
             value={"로그인"}
           />
-        </form>
+        </Form>
         <div
           className="flex flex-col space-y-2 items-center p-6"
         >
