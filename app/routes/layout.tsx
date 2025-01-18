@@ -1,3 +1,4 @@
+import axios from "~/axios";
 import {
   Menu,
   MenuButton,
@@ -7,6 +8,7 @@ import {
 import {
   Link,
   Outlet,
+  useLoaderData,
 } from "react-router";
 import {
   Fragment,
@@ -22,8 +24,32 @@ import {
   NavigationDropDown,
   NavigationTitle,
 } from "~/components/navigation";
+import {
+  auth,
+} from "~/get-token";
+import type {
+  Route,
+} from "./+types/layout";
+import type {
+  Member,
+} from "~/models";
+
+export async function loader({ request }: Route.LoaderArgs) {
+  return await auth(request, async (accessToken) => {
+    if (accessToken == null) {
+      return;
+    }
+    const { data } = await axios.get<Member>("/api/v1/members/profile", {
+      headers: {
+        Authorization: `bearer ${accessToken}`,
+      },
+    });
+    return data;
+  });
+}
 
 export default function RootLayout() {
+  const profile = useLoaderData<typeof loader>();
   return (
     <Fragment>
       <Navigation>
@@ -59,11 +85,13 @@ export default function RootLayout() {
               <hr />
 
               <MenuItem>
-                <Link to="/signup">
-                  {/* <button> */}
-                  item
-                  {/* </button> */}
-                </Link>
+                {profile != null
+                  ? <button>
+                    로그아웃
+                  </button>
+                  : <Link to="/login">
+                    로그인
+                  </Link>}
               </MenuItem>
             </MenuItems>
           </Menu>
