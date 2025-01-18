@@ -33,6 +33,9 @@ import type {
 import type {
   Member,
 } from "~/models";
+import type {
+  MouseEvent,
+} from "react";
 
 export async function loader({ request }: Route.LoaderArgs) {
   return await auth(request, async (accessToken) => {
@@ -49,6 +52,12 @@ export async function loader({ request }: Route.LoaderArgs) {
 }
 
 export default function RootLayout() {
+  const onLogout = async (e: MouseEvent<HTMLButtonElement>) => {
+    const res = await fetch("/api/logout", { method: "POST" });
+    const data = await res.json();
+    alert("로그아웃 되었습니다.");
+  };
+
   const profile = useLoaderData<typeof loader>();
   return (
     <Fragment>
@@ -74,19 +83,20 @@ export default function RootLayout() {
             <MenuItems
               className="absolute top-full right-0 border  w-64 mt-4"
             >
-              <MenuItem>
-                <button
-                  className="p-4"
-                  type="button"
+              {profile != null && <MenuItem>
+                <Link
+                  className="p-4 block"
+                  to="/articles/new"
                 >
-                  item
-                </button>
-              </MenuItem>
+                  게시글 작성
+                </Link>
+              </MenuItem>}
               <hr />
-
               <MenuItem>
                 {profile != null
-                  ? <button>
+                  ? <button
+                    onClick={onLogout}
+                  >
                     로그아웃
                   </button>
                   : <Link to="/login">
@@ -99,6 +109,6 @@ export default function RootLayout() {
       </Navigation>
       <Outlet />
       <Footer />
-    </Fragment>
+    </Fragment >
   );
 }
