@@ -1,5 +1,5 @@
 type FormErrorMessageProps = {
-  messages?: string[],
+  messages?: string | string[],
 }
 export function FormErrorMessage({ messages }: FormErrorMessageProps) {
 
@@ -10,7 +10,7 @@ export function FormErrorMessage({ messages }: FormErrorMessageProps) {
     <p
       className="dark:text-red-400 text-red-600 text-sm mt-1"
     >
-      {messages[0] ?? ""}
+      {Array.isArray(messages) ? messages[0] ?? "" : messages}
     </p>
   );
 }
