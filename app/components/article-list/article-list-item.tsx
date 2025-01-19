@@ -1,9 +1,17 @@
-import { Link } from "react-router";
+import {
+  Link,
+} from "react-router";
+import type {
+  Article,
+} from "~/models";
 
-export function ArticleListItem() {
+type ArticleListItemProps = {
+  article: Article,
+}
+export function ArticleListItem({ article }: ArticleListItemProps) {
   return (
     <Link
-      to={"/"}
+      to={`/articles/${article.id}`}
       className="flex justify-between items-start gap-4 border-b pb-8 mb-8"
     >
       <div
@@ -11,12 +19,12 @@ export function ArticleListItem() {
         <p
           className="text-lg font-bold text-ellipsis overflow-hidden whitespace-nowrap"
         >
-          sadfasdf
+          {article.title}
         </p>
         <p
           className="text-sm line-clamp-3 text-ellipsis break-all"
-        > 
-          asdfasasdfasasdfasasdfasvvasdfasasdfasasdfasasdfasasdfasasdfasasdfasasdfasasdfasasdfasasdfasasdfasasdfasasdf asasdfasasdfasasdfasasdfasasdfasasdfasasdfasasdfas
+        >
+          {article.content}
         </p>
       </div>
       <div className="max-w-24 max-h-24 sm:max-w-32 sm:max-h-48 w-full h-full aspect-square">
