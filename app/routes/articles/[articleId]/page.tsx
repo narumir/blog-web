@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import axios from "app/axios";
 import {
   ServerBlockNoteEditor,
@@ -34,11 +35,25 @@ export default function ArticlePage() {
     <div
       className="lg:max-w-4xl mx-auto"
     >
-      <h1>{article.title}</h1>
+      <h1
+        className="font-bold text-4xl px-4 mb-2"
+      >
+        {article.title}
+      </h1>
       <div
+        className="border-b pb-6 px-4 flex gap-2"
+      >
+        <span>
+          {article.member.nickname}
+        </span>
+        <span>
+          {dayjs(article.publishedAt).format("YYYY-MM-DD hh:mm")}
+        </span>
+      </div>
+      <div
+        className="p-4"
         dangerouslySetInnerHTML={{ __html: article.content }}
       />
-      {article.member.nickname}
     </div>
   );
 }

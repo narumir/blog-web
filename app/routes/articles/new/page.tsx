@@ -128,6 +128,7 @@ export default function ArticleWriter({ loaderData }: Route.ComponentProps) {
                   <Input
                     type="radio"
                     value={"PUBLISHED"}
+                    className="w-4 h-4"
                     {...register("status", { required: "공개여부를 선택해주세요" })}
                   />
                   <Label
