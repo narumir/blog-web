@@ -19,6 +19,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      
+      - name: Create Enviroments
+        run: |
+          echo "VITE_API_SERVER=${{ secrets.VITE_API_SERVER }}" >> .env.production
 
       - name: Login to github registry
         uses: docker/login-action@v3
