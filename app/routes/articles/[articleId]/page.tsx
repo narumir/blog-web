@@ -1,5 +1,8 @@
 import axios from "app/axios";
 import {
+  ServerBlockNoteEditor,
+} from "@blocknote/server-util";
+import {
   useLoaderData,
 } from "react-router";
 import {
@@ -19,19 +22,22 @@ export async function loader({ request, params }: Route.LoaderArgs) {
         Authorization: `bearer ${accessToken}`,
       },
     });
+    const editor = ServerBlockNoteEditor.create();
+    data.content = await editor.blocksToFullHTML(JSON.parse(data.content));
     return data;
   });
 }
 
 export default function ArticlePage() {
   const article = useLoaderData<typeof loader>();
-  const content = JSON.parse(article.content);
-  console.log(content)
   return (
     <div
       className="lg:max-w-4xl mx-auto"
     >
       <h1>{article.title}</h1>
+      <div
+        dangerouslySetInnerHTML={{ __html: article.content }}
+      />
       {article.member.nickname}
     </div>
   );

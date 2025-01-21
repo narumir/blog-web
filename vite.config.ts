@@ -11,20 +11,14 @@ import {
 export default defineConfig({
   css: {
     postcss: {
-      plugins: [tailwindcss, autoprefixer],
+      plugins: [
+        tailwindcss,
+        autoprefixer,
+      ],
     },
   },
-  ssr: {
-    noExternal: [
-      "@tiptap/core",
-      "@blocknote/core",
-      "@blocknote/mantine",
-      "@blocknote/react",
-      "@blocknote/*",
-    ]
-  },
-  // ssr: {
-  //   noExternal: ['@blocknote/mantine', "@blocknote/react"], // 특정 라이브러리를 SSR에서 제외
-  // },
-  plugins: [reactRouter(), tsconfigPaths()],
+  plugins: [
+    reactRouter(),
+    tsconfigPaths(),
+  ],
 });
