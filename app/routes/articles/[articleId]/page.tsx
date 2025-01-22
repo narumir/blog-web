@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import axios from "app/axios";
+import axios from "~/axios";
 import {
   ServerBlockNoteEditor,
 } from "@blocknote/server-util";

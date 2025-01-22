@@ -1,4 +1,4 @@
-import axios from "app/axios";
+import axios from "~/axios";
 import {
   Field,
   Input,
