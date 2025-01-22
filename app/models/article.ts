@@ -16,3 +16,7 @@ export type Article = {
   publishedAt: string,
   member: Member,
 };
+
+export type ArticleInfo = {
+  total: number,
+};

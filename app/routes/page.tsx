@@ -24,6 +24,7 @@ import type {
 } from "./+types/page";
 import type {
   Article,
+  ArticleInfo,
 } from "~/models";
 
 export function meta({ }: Route.MetaArgs) {
@@ -37,24 +38,21 @@ export async function loader({
   request,
 }: Route.LoaderArgs) {
   return auth(request, async (accessToken) => {
-    const { data } = await axios.get<Article[]>(`/api/v1/articles`, {
-      headers: {
-        Authorization: `bearer ${accessToken}`,
-      },
-    });
+    const { data } = await axios.get<Article[]>(`/api/v1/articles`);
+    const info = await axios.get<ArticleInfo>(`/api/v1/articles/info`);
     const hasMore = data.length !== 0;
-    return { data, hasMore };
+    return { data, hasMore, info: info.data };
   });
 }
 
 export default function Home() {
   const { isDarkMode } = useDarkMode();
-  const { data } = useLoaderData<typeof loader>();
+  const { data, hasMore: hasMoreDefaultValue, info } = useLoaderData<typeof loader>();
   const { ref, inView } = useInView({
     threshold: 1,
   });
   const [articles, setArticles] = useState<Article[]>(data);
-  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [hasMore, setHasMore] = useState<boolean>(hasMoreDefaultValue);
   const [isLoading, setLoadig] = useState<boolean>(false);
   const fetchData = async () => {
     setLoadig(true);
@@ -78,7 +76,7 @@ export default function Home() {
   return (
     <div>
       <ArticleList
-        totalArticles={16}
+        totalArticles={info.total}
       >
         {articles.map((article) => (
           <ArticleListItem
