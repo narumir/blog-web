@@ -59,7 +59,11 @@ export default function Home() {
   const fetchData = async () => {
     setLoadig(true);
     const latestId = articles.length > 0 ? articles[articles.length - 1].id : undefined;
-    const { data } = await axios.get<Article[]>(`/api/v1/articles?last=${latestId}`);
+    const params = new URLSearchParams();
+    if (latestId != null) {
+      params.append("last", latestId.toString());
+    }
+    const { data } = await axios.get<Article[]>(`/api/v1/articles?${params.toString()}`);
     setArticles((prev) => [...prev, ...data]);
     if (data.length === 0) {
       setHasMore(false);
