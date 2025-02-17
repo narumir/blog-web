@@ -23,6 +23,7 @@ jobs:
       - name: Create Enviroments
         run: |
           echo "VITE_API_SERVER=${{ secrets.VITE_API_SERVER }}" >> .env.production
+          echo "VITE_GOOGLE_ANALYTICS=${{ secrets.VITE_GOOGLE_ANALYTICS }}" >> .env.production
 
       - name: Setup node.js
         uses: actions/setup-node@v4
