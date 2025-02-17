@@ -7,6 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useLocation,
 } from "react-router";
 import {
   DarkModeProvider,
@@ -17,6 +18,9 @@ import {
 import type {
   Route,
 } from "./+types/root";
+import {
+  useEffect,
+} from "react";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const cookieHeader = request.headers.get("Cookie");
@@ -40,6 +44,10 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { isDarkMode } = useLoaderData<typeof loader>();
+  const location = useLocation();
+  useEffect(() => {
+    gtag("config", import.meta.env.VITE_GOOGLE_ANALYTICS, { page_path: location.pathname });
+  }, [location]);
   return (
     <DarkModeProvider initialMode={isDarkMode}>
       <html lang="ko" className={`${isDarkMode ? "dark dark-scheme" : ""}`}>
@@ -48,6 +56,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <Meta />
           <Links />
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.VITE_GOOGLE_ANALYTICS}`}
+          />
+          <script
+            async
+            id="google-analytics"
+            dangerouslySetInnerHTML={{
+              __html: `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date());`,
+            }} />
         </head>
         <body>
           {children}
