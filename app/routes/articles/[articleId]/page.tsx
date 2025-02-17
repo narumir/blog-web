@@ -47,7 +47,7 @@ export default function ArticlePage() {
           {article.member.nickname}
         </span>
         <span>
-          {dayjs(article.publishedAt).format("YYYY-MM-DD hh:mm")}
+          {dayjs(article.publishedAt).tz("Asia/Seoul").format("YYYY-MM-DD hh:mm")}
         </span>
       </div>
       <div

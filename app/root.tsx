@@ -1,4 +1,7 @@
 import stylesheet from "./app.css?url";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 import {
   isRouteErrorResponse,
   Links,
@@ -21,6 +24,9 @@ import type {
 import {
   useEffect,
 } from "react";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export async function loader({ request }: Route.LoaderArgs) {
   const cookieHeader = request.headers.get("Cookie");
@@ -46,7 +52,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const { isDarkMode } = useLoaderData<typeof loader>();
   const location = useLocation();
   useEffect(() => {
+    console.log("page changed");
     gtag("config", import.meta.env.VITE_GOOGLE_ANALYTICS, { page_path: location.pathname });
+
   }, [location]);
   return (
     <DarkModeProvider initialMode={isDarkMode}>
